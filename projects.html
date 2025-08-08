@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projects — Azhaan's Portfolio</title>
+  <meta name="description" content="Detailed projects by Azhaan." />
+  <meta name="theme-color" content="#0a101a" />
+  <style>
+    :root {
+      --bg: #0a101a; --surface: #101623; --primary: #809fff;
+      --secondary: #5de4e4; --ink: #e0e8ff; --muted: #a0b3d7;
+      --shadow: rgba(0, 0, 0, 0.25); --radius: 12px;
+      --tag-coming-soon-bg: rgba(255, 170, 51, 0.15); --tag-coming-soon-text: #ffaa33;
+      --tag-closed-bg: rgba(255, 82, 82, 0.15); --tag-closed-text: #ff5252;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg); color: var(--ink);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.7; overflow-x: hidden;
+      opacity: 0; animation: pageFadeIn 1s ease forwards;
+    }
+    @keyframes pageFadeIn { to { opacity: 1; } }
+    .container { width: 90%; max-width: 1100px; margin: 0 auto; }
+    
+    /* --- Navigation --- */
+    nav {
+      position: sticky; top: 0; z-index: 1000; padding: 16px 0;
+      background: rgba(10, 16, 26, 0.7); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(128, 159, 255, 0.1);
+    }
+    .nav-container { display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-weight: 700; font-size: 1.25rem; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-weight: 600; transition: color 0.2s ease; }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    
+    /* --- Main Content --- */
+    .page-header { padding: 60px 0; text-align: center; }
+    .page-header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+    .page-header p { color: var(--muted); font-size: 1.1rem; }
+    
+    .projects-container {
+      display: grid; gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+    .project-card {
+      background: var(--surface); border-radius: var(--radius); overflow: hidden;
+      border: 1px solid rgba(128, 159, 255, 0.1);
+      box-shadow: 0 8px 30px var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px var(--shadow); }
+    .project-banner { width: 100%; height: 200px; object-fit: cover; }
+    .project-content { padding: 1.5rem; position: relative; flex-grow: 1; display: flex; flex-direction: column;}
+    .project-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
+    .project-header h3 { font-size: 1.75rem; margin: 0; }
+    .project-tag { font-size: 0.8rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
+    .tag-coming-soon { background: var(--tag-coming-soon-bg); color: var(--tag-coming-soon-text); }
+    .tag-closed { background: var(--tag-closed-bg); color: var(--tag-closed-text); }
+    .project-description { color: var(--muted); margin-bottom: 1.5rem; }
+    .project-features { list-style: none; padding-left: 0; margin-bottom: 2rem; flex-grow: 1;}
+    .project-features li { margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative; }
+    .project-features li::before { content: '✓'; color: var(--secondary); position: absolute; left: 0; font-weight: 700; }
+    .invite-button {
+        display: inline-block; background: var(--primary); color: var(--bg);
+        text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 700;
+        transition: all 0.3s ease; text-align: center;
+    }
+    .invite-button:hover { background: var(--secondary); transform: scale(1.05); }
+    footer { text-align: center; padding: 2rem 0; margin-top: 4rem; border-top: 1px solid rgba(128, 159, 255, 0.1); color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav>
+      <div class="container nav-container">
+        <a href="index.html" class="brand">Azhaan</a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="projects.html" class="active">Projects</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      <header class="page-header">
+        <h1>My Creations</h1>
+        <p>A showcase of my major projects and development work.</p>
+      </header>
+      
+      <section class="projects-container">
+        <article class="project-card">
+          <img src="YOUR_ZYROX_BANNER_LINK_HERE" alt="Zyrox X Banner" class="project-banner"/>
+          <div class="project-content">
+            <div class="project-header">
+              <h3>Zyrox X</h3>
+              <span class="project-tag tag-coming-soon">Coming Soon</span>
+            </div>
+            <p class="project-description">An all-in-one solution for Discord server management, engineered for security, engagement, and seamless administration.</p>
+            <ul class="project-features">
+              <li>Advanced Anti-Nuke & Anti-Raid Systems</li>
+              <li>Automated Moderation and Logging</li>
+              <li>Customizable Welcome & Goodbye Messages</li>
+              <li>Engaging Utility and Fun Commands</li>
+            </ul>
+            <a href="YOUR_DISCORD_INVITE_LINK_HERE" class="invite-button" target="_blank" rel="noopener noreferrer">Invite Bot</a>
+          </div>
+        </article>
+        
+        <article class="project-card">
+          <img src="YOUR_BLASTMC_BANNER_LINK_HERE" alt="Blast MC Banner" class="project-banner"/>
+          <div class="project-content">
+            <div class="project-header">
+              <h3>Blast MC</h3>
+              <span class="project-tag tag-closed">Closed</span>
+            </div>
+            <p class="project-description">A premier Minecraft server experience built from the ground up, focusing on performance, stability, and unique gameplay features.</p>
+            <ul class="project-features">
+              <li>78+ Custom Servers Deployed</li>
+              <li>Optimized for Lag-Free Gameplay</li>
+              <li>Plugin-Free, Vanilla-True Architecture</li>
+              <li>Tailored Environments for Communities</li>
+            </ul>
+          </div>
+        </article>
+        
+        <article class="project-card">
+          <img src="YOUR_COMINGSOON_BANNER_LINK_HERE" alt="Future Project Banner" class="project-banner"/>
+          <div class="project-content">
+            <div class="project-header">
+              <h3>Future Projects</h3>
+            </div>
+            <p class="project-description">Innovation never stops. I am actively developing the next generation of tools and experiences to push the boundaries of what's possible.</p>
+            <ul class="project-features">
+              <li>Exploring Web3 & DApp Integration</li>
+              <li>Advanced AI-Powered Automation</li>
+              <li>Next-Gen Game Server Management</li>
+              <li>Stay Tuned for More Information</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        &copy; 2025 Azhaan. Designed with passion and code.
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
