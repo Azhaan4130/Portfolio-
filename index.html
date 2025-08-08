@@ -25,34 +25,26 @@
       font-family: 'Inter', system-ui, sans-serif;
       line-height: 1.7; overflow-x: hidden;
     }
-    /* --- New Ultimate Loading Animation --- */
+    /* --- Ultimate Loading Animation --- */
     .loader {
-        position: fixed; inset: 0; background: var(--bg);
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        position: fixed; inset: 0; background-color: var(--bg);
+        display: flex; align-items: center; justify-content: center;
         z-index: 9999;
         transition: opacity 1s ease, visibility 1s ease;
         transition-delay: 0.5s;
     }
     .loader-content { text-align: center; }
-    .loader-brand { font-size: 2.5rem; font-weight: 700; color: var(--ink); margin-bottom: 2rem; }
+    .loader-brand { font-size: 2.5rem; font-weight: 700; color: var(--ink); margin-bottom: 2rem; opacity: 0; animation: brand-fade-in 1s ease forwards; }
+    @keyframes brand-fade-in { to { opacity: 1; } }
     .progress-bar-container {
         width: 250px; height: 8px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 4px; margin: 1.5rem 0 1rem;
-        overflow: hidden; position: relative;
+        overflow: hidden;
     }
     .progress-bar { width: 0%; height: 100%; background: var(--secondary); border-radius: 4px; transition: width 0.1s linear; }
-    .scanner-light {
-        position: absolute; top: 0; left: 0; width: 50px; height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        animation: scan 2s infinite linear;
-    }
-    @keyframes scan {
-        from { transform: translateX(-50px); }
-        to { transform: translateX(250px); }
-    }
     .loader-percentage { color: var(--muted); font-weight: 600; margin-bottom: 1rem; }
-    .loader-text { color: var(--muted); font-family: 'Courier New', Courier, monospace; }
+    .loader-text { color: var(--muted); }
     
     body.loaded .loader { opacity: 0; visibility: hidden; }
     .page { opacity: 0; transition: opacity 1s ease; }
@@ -60,15 +52,11 @@
     
     .container { width: 90%; max-width: 1100px; margin: 0 auto; }
     
-    .background-animation { position: fixed; inset: 0; z-index: -1; overflow: hidden; 
-        background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-        background-size: 30px 30px;
-        animation: moveGrid 10s linear infinite;
-    }
-    @keyframes moveGrid {
-        from { background-position: 0 0; }
-        to { background-position: 0 -300px; }
-    }
+    .background-animation { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+    .circle { position: absolute; border-radius: 50%; mix-blend-mode: screen; filter: blur(120px); opacity: 0.6; }
+    .circle-1 { width: 400px; height: 400px; background: var(--primary); animation: move 20s infinite alternate; top: -10%; left: -5%; }
+    .circle-2 { width: 500px; height: 500px; background: var(--secondary); animation: move 25s infinite alternate-reverse; bottom: -15%; right: -10%; }
+    @keyframes move { from { transform: translate(-50%, -50%) rotate(0deg) scale(0.8); } to { transform: translate(50%, 50%) rotate(360deg) scale(1.2); } }
 
     nav {
       position: sticky; top: 0; z-index: 1000; padding: 16px 0;
@@ -165,13 +153,15 @@
       <div class="loader-brand">Azhaan</div>
       <div class="progress-bar-container">
           <div class="progress-bar"></div>
-          <div class="scanner-light"></div>
       </div>
       <div class="loader-percentage">0%</div>
-      <div class="loader-text"></div>
+      <div class="loader-text">Loading components...</div>
     </div>
   </div>
-  <div class="background-animation"></div>
+  <div class="background-animation">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+  </div>
   <div class="page">
     <nav>
       <div class="container nav-container">
@@ -279,23 +269,23 @@
         const progressBar = document.querySelector('.progress-bar');
         const percentageText = document.querySelector('.loader-percentage');
         const loaderText = document.querySelector('.loader-text');
-        const loadingStates = ["Initializing...", "Compiling bits...", "Deploying modules..."];
         
+        const loadingStates = ["Initializing...", "Compiling assets...", "Deploying experience..."];
         let progress = 0;
         let textIndex = 0;
 
         const updateLoader = () => {
             progress += 1;
-            if(progressBar) progressBar.style.width = progress + '%';
-            if(percentageText) percentageText.textContent = progress + '%';
+            if (progressBar) progressBar.style.width = progress + '%';
+            if (percentageText) percentageText.textContent = progress + '%';
             
-            if (progress > 33 && textIndex === 0) {
+            if (progress >= 33 && textIndex === 0) {
                 textIndex++;
-                loaderText.textContent = loadingStates[textIndex];
+                if (loaderText) loaderText.textContent = loadingStates[textIndex];
             }
-            if (progress > 66 && textIndex === 1) {
+            if (progress >= 66 && textIndex === 1) {
                 textIndex++;
-                loaderText.textContent = loadingStates[textIndex];
+                if (loaderText) loaderText.textContent = loadingStates[textIndex];
             }
             
             if (progress >= 100) {
@@ -306,8 +296,8 @@
             }
         };
 
-        if(loaderText) loaderText.textContent = loadingStates[0];
-        const interval = setInterval(updateLoader, 30);
+        if (loaderText) loaderText.textContent = loadingStates[0];
+        const interval = setInterval(updateLoader, 35);
     });
 
     // --- Staggered Reveal Animation ---
@@ -321,13 +311,14 @@
       });
     }, { threshold: 0.1 });
     
-    // We wait for the page to be loaded before revealing content
+    // Wait for the loader to finish before starting to reveal content
     window.addEventListener('load', () => {
         setTimeout(() => {
-            revealElements.forEach(el => observer.observe(el));
             document.querySelector('.page').style.opacity = '1';
+            revealElements.forEach(el => observer.observe(el));
         }, 3500); // Should match loader duration
     });
   </script>
 </body>
-</html>
+              </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
