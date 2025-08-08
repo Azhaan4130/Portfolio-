@@ -9,7 +9,7 @@
   <style>
     :root {
       --bg: #02040a; 
-      --surface: rgba(10, 16, 30, 0.5); 
+      --surface: rgba(10, 16, 30, 0.6); 
       --primary: #00aeff;
       --secondary: #39d3d3;
       --ink: #e8efff; 
@@ -29,14 +29,12 @@
     @keyframes pageFadeIn { to { opacity: 1; } }
     .container { width: 90%; max-width: 1100px; margin: 0 auto; }
     
-    /* --- Animated Background --- */
     .background-animation { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
     .circle { position: absolute; border-radius: 50%; mix-blend-mode: screen; filter: blur(120px); opacity: 0.6; }
     .circle-1 { width: 400px; height: 400px; background: var(--primary); animation: move 20s infinite alternate; top: -10%; left: -5%; }
     .circle-2 { width: 500px; height: 500px; background: var(--secondary); animation: move 25s infinite alternate-reverse; bottom: -15%; right: -10%; }
     @keyframes move { from { transform: translate(-50%, -50%) rotate(0deg) scale(0.8); } to { transform: translate(50%, 50%) rotate(360deg) scale(1.2); } }
 
-    /* --- Navigation --- */
     nav {
       position: sticky; top: 0; z-index: 1000; padding: 16px 0;
       background: rgba(2, 4, 10, 0.4); backdrop-filter: blur(24px);
@@ -50,7 +48,6 @@
     .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
     .nav-links a:hover, .nav-links a.active { color: var(--secondary); }
     
-    /* --- Header --- */
     header { text-align: center; padding: 100px 0; position: relative; }
     .avatar {
       width: 140px; height: 140px; border-radius: 50%; object-fit: cover;
@@ -68,16 +65,13 @@
     header .subtitle { font-size: clamp(1rem, 4vw, 1.25rem); color: var(--muted); max-width: 600px; margin: 0 auto; }
     header .subtitle strong { color: var(--secondary); }
     
-    /* --- General Section Styling --- */
     section { padding: 80px 0; }
     .section-title { font-size: 2.5rem; text-align: center; margin-bottom: 3rem; }
     .section-title::after { content: '.'; color: var(--secondary); }
     
-    /* Scroll Reveal Animation */
     .reveal { opacity: 0; transform: translateY(50px); transition: opacity 1s, transform 1s; transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
     
-    /* --- 3D Glassmorphic Cards --- */
     .glass-card {
         background: var(--surface);
         backdrop-filter: blur(15px);
@@ -85,37 +79,49 @@
         padding: 2.5rem;
         border: 1px solid rgba(0, 174, 255, 0.2);
         box-shadow: 0 8px 32px var(--shadow);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        transform-style: preserve-3d;
     }
-    .experience-grid .glass-card:hover, #contact .glass-card:hover { box-shadow: 0 16px 50px var(--shadow); }
     .about-content { text-align: center; font-size: 1.1rem; color: var(--muted); }
     .experience-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
     .experience-item h3 { color: var(--secondary); margin-bottom: 0.5rem; }
     .experience-item p { color: var(--muted); }
 
-    /* --- Featured Projects & CTA Button --- */
+    /* --- New My Skills Section --- */
+    .skills-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+    .skill-box {
+        background: var(--surface);
+        border: 1px solid rgba(0, 174, 255, 0.15);
+        color: var(--muted);
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: transform 0.3s ease, color 0.3s ease, background 0.3s ease;
+    }
+    .skill-box:hover {
+        transform: translateY(-5px);
+        color: var(--ink);
+        background: rgba(0, 174, 255, 0.1);
+    }
+
     .project-preview { text-align: center; }
     .project-preview p { max-width: 600px; margin: 0 auto 2rem auto; color: var(--muted); font-size: 1.1rem; }
     .cta-button {
         position: relative;
         display: inline-block; background: var(--primary); color: var(--bg);
         text-decoration: none; padding: 14px 28px; border-radius: 12px;
-        font-weight: 700; transition: all 0.3s ease; overflow: hidden;
+        font-weight: 700; transition: all 0.2s ease;
     }
-    .cta-button:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 10px 25px rgba(0, 174, 255, 0.4); }
-    
-    /* --- Button Ripple Effect --- */
-    .ripple {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.5);
-      transform: scale(0);
-      animation: ripple-effect 0.8s ease-out;
+    .cta-button:active {
+        transform: scale(0.95);
     }
-    @keyframes ripple-effect { to { transform: scale(4); opacity: 0; } }
+    .cta-button:hover {
+        box-shadow: 0 10px 25px rgba(0, 174, 255, 0.4);
+    }
 
-    /* --- Contact & Footer --- */
     .contact-info { text-align: center; }
     .discord-link { color: var(--secondary); font-weight: 700; text-decoration: none; font-size: 1.5rem; transition: color 0.2s; }
     .discord-link:hover { color: #87fffb; text-shadow: 0 0 10px var(--secondary); }
@@ -143,7 +149,7 @@
       <div class="header-content">
         <img src="YOUR_AVATAR_LINK_HERE" alt="Azhaan Avatar" class="avatar" />
         <h1>Azhaan</h1>
-        <p class="subtitle">
+        <p class="subtitle" id="subtitle-text">
           Crafting high-performance <strong>Minecraft Servers</strong> & intelligent <strong>Discord Bots</strong>.
         </p>
       </div>
@@ -153,7 +159,7 @@
       <section id="about" class="reveal">
           <h2 class="section-title">About Me</h2>
           <div class="glass-card about-content">
-              <p>Hello! I'm Azhaan, a dedicated developer with 5 years of hands-on experience in the digital realm. My passion lies in building efficient, scalable, and engaging platforms from the ground up. Whether it's architecting a plugin-free Minecraft server or developing a feature-rich Discord bot, I thrive on challenges and deliver excellence.</p>
+              <p>Hello! I'm Azhaan, a passionate and results-driven developer with five years of dedicated experience in creating immersive digital platforms. I specialize in architecting high-performance, plugin-free Minecraft servers and developing intelligent, feature-rich Discord bots. My approach combines technical excellence with a deep understanding of community engagement to deliver solutions that are not just functional, but truly exceptional.</p>
           </div>
       </section>
 
@@ -162,16 +168,35 @@
         <div class="experience-grid">
             <div class="glass-card experience-item">
                 <h3>Minecraft Server Architect</h3>
-                <p>Developed and deployed over 78 custom Minecraft servers. Specialized in creating optimized, stable, and secure environments without relying on third-party plugins.</p>
+                <p>I have successfully designed and deployed over 78 custom Minecraft servers. My expertise lies in creating highly optimized, stable, and secure vanilla environments that provide a seamless player experience without third-party plugins.</p>
             </div>
             <div class="glass-card experience-item">
                 <h3>Discord Bot Developer</h3>
-                <p>Engineered multi-purpose Discord bots using Python and Node.js. My work includes complex systems for anti-nuke security, automated moderation, and user engagement.</p>
+                <p>I engineer sophisticated, multi-purpose Discord bots using Python and Node.js. My projects include complex security systems like anti-nuke, automated moderation, and custom API integrations to enhance user engagement.</p>
             </div>
              <div class="glass-card experience-item">
-                <h3>Core Technologies</h3>
-                <p>Proficient in Python, Node.js, and JavaScript. Experienced with server hosting, database management, and creating seamless user experiences across platforms.</p>
+                <h3>Full-Stack Proficiency</h3>
+                <p>With strong skills in both front-end and back-end development, I build complete, end-to-end solutions. I am proficient in hosting, database management, and creating intuitive user interfaces across multiple platforms.</p>
             </div>
+        </div>
+      </section>
+
+      <section id="skills" class="reveal">
+        <h2 class="section-title">My Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-box">JavaScript</div>
+            <div class="skill-box">TypeScript</div>
+            <div class="skill-box">Python</div>
+            <div class="skill-box">Java</div>
+            <div class="skill-box">Go</div>
+            <div class="skill-box">Rust</div>
+            <div class="skill-box">React</div>
+            <div class="skill-box">Next.js</div>
+            <div class="skill-box">Node.js</div>
+            <div class="skill-box">PostgreSQL</div>
+            <div class="skill-box">MongoDB</div>
+            <div class="skill-box">Docker</div>
+            <div class="skill-box">Linux</div>
         </div>
       </section>
 
@@ -186,7 +211,7 @@
       <section id="contact" class="reveal">
         <h2 class="section-title">Let's Connect</h2>
         <div class="glass-card contact-info">
-          <p>Have an idea or want to work together? The best way to reach me is on Discord.</p>
+          <p>Have an idea, a project, or just want to chat? The best way to reach me is on Discord. I'm always open to new opportunities and collaborations.</p>
           <a href="https://discord.com/users/azhaan.dev.exe" class="discord-link" target="_blank" rel="noopener noreferrer">azhaan.dev.exe</a>
         </div>
       </section>
@@ -202,50 +227,84 @@
     // --- Scroll Reveal Animation ---
     const sections = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+      entries.forEach(entry => { 
+        if (entry.isIntersecting) { 
+          entry.target.classList.add('visible'); 
+          observer.unobserve(entry.target); 
+        } 
+      });
     }, { threshold: 0.1 });
     sections.forEach(section => observer.observe(section));
 
-    // --- Button Ripple Effect ---
+    // --- Button Click Animation ---
     const buttons = document.querySelectorAll('.cta-button');
     buttons.forEach(button => {
-      button.addEventListener('click', function (e) {
-        const x = e.clientX - e.target.offsetLeft;
-        const y = e.clientY - e.target.offsetTop;
-        
-        const ripple = document.createElement('span');
-        ripple.classList.add('ripple');
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        
-        this.appendChild(ripple);
-        
-        setTimeout(() => {
-          ripple.remove();
-        }, 800);
-      });
+        button.addEventListener('mousedown', () => {
+            button.style.transform = 'scale(0.95)';
+        });
+        button.addEventListener('mouseup', () => {
+            button.style.transform = 'scale(1)';
+        });
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = 'scale(1)';
+        });
     });
+    
+    // --- Text Scramble Effect for Subtitle ---
+    const subtitle = document.getElementById('subtitle-text');
+    const originalText = subtitle.innerHTML;
+    const chars = '!<>-_\\/[]{}—=+*^?#________';
 
-    // --- 3D Card Tilt Effect ---
-    const cards = document.querySelectorAll('.glass-card');
-    cards.forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const { width, height } = rect;
-        
-        const rotateX = (y / height - 0.5) * -20; // Max rotation 10deg
-        const rotateY = (x / width - 0.5) * 20;  // Max rotation 10deg
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      });
-      
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-      });
-    });
+    let frame;
+    let frameRequest;
+    let queue = [];
 
+    const randomChar = () => chars[Math.floor(Math.random() * chars.length)];
+
+    const update = () => {
+        let output = '';
+        let complete = 0;
+        for (let i = 0, n = queue.length; i < n; i++) {
+            let { from, to, start, end, char } = queue[i];
+            if (frame >= end) {
+                complete++;
+                output += to;
+            } else if (frame >= start) {
+                if (!char || Math.random() < 0.28) {
+                    char = randomChar();
+                    queue[i].char = char;
+                }
+                output += `<span class="scramble-char">${char}</span>`;
+            } else {
+                output += from;
+            }
+        }
+        subtitle.innerHTML = output;
+        if (complete === queue.length) {
+            cancelAnimationFrame(frameRequest);
+        } else {
+            frameRequest = requestAnimationFrame(update);
+            frame++;
+        }
+    };
+
+    const setText = (newText) => {
+        queue = [];
+        for (let i = 0; i < originalText.length; i++) {
+            const from = originalText[i] || '';
+            const to = newText[i] || '';
+            const start = Math.floor(Math.random() * 40);
+            const end = start + Math.floor(Math.random() * 40);
+            queue.push({ from, to, start, end });
+        }
+        cancelAnimationFrame(frameRequest);
+        frame = 0;
+        update();
+    };
+
+    setTimeout(() => {
+        setText(originalText);
+    }, 500);
   </script>
 </body>
 </html>
