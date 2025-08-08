@@ -6,70 +6,109 @@
   <title>Azhaan - Portfolio</title>
   <style>
     body {
-      background-color: #121212;
-      color: #F8F8F2;
+      background-color: #0a1a2a;
+      color: #d0e7ff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
       line-height: 1.6;
     }
     header {
-      background-color: #22232A;
-      padding: 1.5rem;
+      background-color: #112244;
+      padding: 2rem 1.5rem;
       text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     }
     header h1 {
-      color: #8BE9FD;
+      color: #3399ff;
       margin: 0;
+      font-size: 2.8rem;
     }
     header p {
-      color: #50FA7B;
-      margin: 0.3rem 0 0;
+      color: #a3c1ff;
+      margin: 0.5rem 0 0;
       font-style: italic;
+      font-size: 1.1rem;
     }
-    section {
+    header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin-top: 1rem;
+      border: 3px solid #66b2ff;
+      object-fit: cover;
+    }
+    main {
       max-width: 900px;
       margin: 2rem auto;
       padding: 0 1rem;
     }
+    section {
+      background-color: #142b4a;
+      margin-bottom: 2rem;
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(19, 60, 120, 0.6);
+    }
     h2 {
-      color: #8BE9FD;
-      border-bottom: 2px solid #50FA7B;
-      padding-bottom: 0.3rem;
+      color: #3399ff;
+      border-bottom: 2px solid #66b2ff;
+      padding-bottom: 0.4rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    p, li {
+      font-size: 1.1rem;
+      color: #c8d9ff;
     }
     table {
       width: 100%;
       border-collapse: collapse;
       margin: 1rem 0;
+      background-color: #12253d;
+      border-radius: 6px;
+      overflow: hidden;
     }
     th, td {
-      border: 1px solid #50FA7B;
-      padding: 0.75rem;
+      border: 1px solid #3399ff;
+      padding: 0.85rem 1rem;
       text-align: left;
+      color: #cfe0ff;
     }
     th {
-      background-color: #333541;
-      color: #8BE9FD;
-    }
-    td {
-      background-color: #22232A;
+      background-color: #1b3b73;
+      font-weight: 600;
     }
     ul {
       list-style-type: none;
       padding: 0;
     }
     ul li {
-      background: #22232A;
-      margin: 0.5rem 0;
-      padding: 0.7rem;
-      border-left: 5px solid #50FA7B;
+      background: #1b3b73;
+      margin: 0.6rem 0;
+      padding: 0.8rem 1rem;
+      border-left: 7px solid #66b2ff;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    ul li:hover {
+      background-color: #29569a;
+    }
+    a.discord-link {
+      color: #66b2ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a.discord-link:hover {
+      text-decoration: underline;
     }
     footer {
       text-align: center;
       padding: 1rem;
-      background-color: #22232A;
-      color: #50FA7B;
+      background-color: #112244;
+      color: #66b2ff;
       font-size: 0.9rem;
+      box-shadow: inset 0 1px 3px rgba(102, 178, 255, 0.3);
     }
   </style>
 </head>
@@ -78,55 +117,58 @@
 <header>
   <h1>Azhaan</h1>
   <p>Discord: azhaan.dev.exe | Minecraft & Bot Developer</p>
-  <p><em>Avatar coming soon!</em></p>
+  <img src="YOUR_AVATAR_LINK_HERE" alt="Azhaan Avatar" />
 </header>
 
-<section>
-  <h2>About Me</h2>
-  <p>I’m <strong>Azhaan</strong>, a passionate developer with 5 years of experience focused on Minecraft server development and bot creation. Skilled in Python, Node.js, and JavaScript.</p>
-</section>
+<main>
 
-<section>
-  <h2>Experience</h2>
-  <table>
-    <thead>
-      <tr><th>Role / Skill</th><th>Details</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Minecraft Server Development</td>
-        <td>Developed 78+ custom Minecraft servers without plugins, focusing on vanilla server architecture and custom environments</td>
-      </tr>
-      <tr>
-        <td>Bot Development</td>
-        <td>Creating bots for Discord, web automation, and task automation using Python, Node.js, JavaScript</td>
-      </tr>
-      <tr>
-        <td>Main Languages</td>
-        <td>Python, Node.js, JavaScript</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
+  <section>
+    <h2>About Me</h2>
+    <p>Hello! I’m <strong>Azhaan</strong>, a dedicated developer with 5 years of experience specializing in Minecraft server development and Discord bot creation. Skilled in Python, Node.js, and JavaScript, I build custom server environments and advanced bots tailored to community and automation needs.</p>
+  </section>
 
-<section>
-  <h2>Projects</h2>
-  <ul>
-    <li><strong>Animated Bot:</strong> Interactive bot with animations and smooth UI flows.</li>
-    <li><strong>Minecraft Server Suite:</strong> Suite of 78+ custom servers, optimized and tailored for communities without using plugins.</li>
-    <li><strong>Multi-Platform Automation Bots:</strong> Bots designed for automation and moderation across platforms.</li>
-  </ul>
-</section>
+  <section>
+    <h2>Experience</h2>
+    <table>
+      <thead>
+        <tr><th>Role / Skill</th><th>Details</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Minecraft Server Development</td>
+          <td>Developed 78+ custom Minecraft servers without plugins, focusing on vanilla server architecture, optimization, and custom environments</td>
+        </tr>
+        <tr>
+          <td>Discord Bot Development</td>
+          <td>Created animated, interactive bots for Discord using Python, Node.js, and JavaScript for automation, moderation, and engagement</td>
+        </tr>
+        <tr>
+          <td>Main Languages</td>
+          <td>Python, Node.js, JavaScript</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-<section>
-  <h2>Contact</h2>
-  <p>Discord: <a href="https://discord.com/users/azhaan.dev.exe" style="color:#50FA7B;">azhaan.dev.exe</a></p>
-</section>
+  <section>
+    <h2>Projects</h2>
+    <ul>
+      <li><strong>Zyrox X:</strong> A multipurpose Discord bot with antinuke, automod, welcomer, and more features.</li>
+      <li><strong>Blast MC:</strong> Best Minecraft server offering optimized gameplay and community features.</li>
+      <li><strong>Coming Soon:</strong> Exciting new projects under development—stay tuned!</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p>Connect with me on Discord: <a href="https://discord.com/users/azhaan.dev.exe" class="discord-link" target="_blank" rel="noopener noreferrer">azhaan.dev.exe</a></p>
+  </section>
+
+</main>
 
 <footer>
   &copy; 2025 Azhaan. All rights reserved.
 </footer>
 
 </body>
-  </html>
-  
+</html>
