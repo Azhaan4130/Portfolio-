@@ -8,491 +8,185 @@
   <meta name="theme-color" content="#0a101a" />
   <style>
     :root {
-      --bg: #0a101a;
-      --surface: #101623;
-      --primary: #809fff;
-      --secondary: #5de4e4;
-      --ink: #e0e8ff;
-      --muted: #a0b3d7;
-      --shadow: rgba(0, 0, 0, 0.2);
-      --glow: rgba(128, 159, 255, 0.4);
-      --radius: 12px;
-      --tag-coming-soon-bg: rgba(255, 170, 51, 0.15);
-      --tag-coming-soon-text: #ffaa33;
-      --tag-closed-bg: rgba(255, 82, 82, 0.15);
-      --tag-closed-text: #ff5252;
+      --bg: #0a101a; --surface: #101623; --primary: #809fff;
+      --secondary: #5de4e4; --ink: #e0e8ff; --muted: #a0b3d7;
+      --shadow: rgba(0, 0, 0, 0.25); --radius: 12px;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
-
     body {
-      background-color: var(--bg);
-      color: var(--ink);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.7;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      background-color: var(--bg); color: var(--ink);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.7; overflow-x: hidden;
+      opacity: 0; animation: pageFadeIn 1s ease forwards;
     }
-
-    /* --- Page Load Animation --- */
-    .page {
-      opacity: 0;
-      transform: translateY(15px);
-      animation: pageIn 1s ease-out forwards;
-    }
-    @keyframes pageIn { to { opacity: 1; transform: none; } }
-
-    .container {
-      width: 90%;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
+    @keyframes pageFadeIn { to { opacity: 1; } }
+    .container { width: 90%; max-width: 1100px; margin: 0 auto; }
     
     /* --- Navigation --- */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      padding: 16px 0;
-      background: rgba(10, 16, 26, 0.7);
-      backdrop-filter: blur(16px);
+      position: sticky; top: 0; z-index: 1000; padding: 16px 0;
+      background: rgba(10, 16, 26, 0.7); backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(128, 159, 255, 0.1);
     }
-    .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .brand {
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--ink);
-    }
-    .nav-links {
-      display: none; /* Hidden by default on mobile */
-      gap: 1.5rem;
-    }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s ease;
-    }
-    .nav-links a:hover { color: var(--primary); }
+    .nav-container { display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-weight: 700; font-size: 1.25rem; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-weight: 600; transition: color 0.2s ease; }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
     
-    /* Hamburger Menu for Mobile */
-    .menu-toggle {
-      display: block; /* Shown on mobile */
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 1001;
-    }
-    .hamburger {
-      width: 24px;
-      height: 2px;
-      background: var(--ink);
-      position: relative;
-      transition: all 0.3s ease;
-    }
-    .hamburger::before, .hamburger::after {
-      content: '';
-      position: absolute;
-      width: 24px;
-      height: 2px;
-      background: var(--ink);
-      left: 0;
-      transition: all 0.3s ease;
-    }
-    .hamburger::before { top: -8px; }
-    .hamburger::after { bottom: -8px; }
-    
-    .mobile-nav {
-      position: fixed;
-      top: 0;
-      left: 100%;
-      width: 100%;
-      height: 100vh;
-      background: var(--bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-      transition: left 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-      z-index: 999;
-    }
-    .mobile-nav a {
-      color: var(--ink);
-      text-decoration: none;
-      font-size: 2rem;
-      font-weight: 700;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    /* Active states for mobile menu */
-    body.menu-open .hamburger { background: transparent; }
-    body.menu-open .hamburger::before { transform: rotate(45deg); top: 0; }
-    body.menu-open .hamburger::after { transform: rotate(-45deg); bottom: 0; }
-    body.menu-open .mobile-nav { left: 0; }
-    body.menu-open .mobile-nav a {
-      opacity: 1;
-      transform: none;
-      transition: opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s;
-    }
-
     /* --- Header --- */
-    header {
-      text-align: center;
-      padding: 80px 0;
-      position: relative;
-    }
-    #particle-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
+    header { text-align: center; padding: 100px 0; position: relative; overflow: hidden; }
+    #particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    .header-content { position: relative; z-index: 1; }
     .avatar {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--secondary);
-      box-shadow: 0 0 30px rgba(93, 228, 228, 0.3), 0 4px 20px var(--shadow);
-      margin-bottom: 1.5rem;
-      animation: float 5s ease-in-out infinite;
+      width: 140px; height: 140px; border-radius: 50%; object-fit: cover;
+      border: 4px solid var(--secondary);
+      box-shadow: 0 0 40px rgba(93, 228, 228, 0.4), 0 4px 20px var(--shadow);
+      margin-bottom: 1.5rem; animation: float 6s ease-in-out infinite;
     }
-    @keyframes float { 50% { transform: translateY(-12px); } }
-    
+    @keyframes float { 50% { transform: translateY(-15px); } }
     header h1 {
-      font-size: clamp(2.5rem, 8vw, 4rem);
-      margin: 0 0 1rem;
-      letter-spacing: -1.5px;
+      font-size: clamp(3rem, 10vw, 4.5rem); margin: 0 0 1rem; letter-spacing: -2px;
       background: linear-gradient(45deg, #fff, var(--muted));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    header .subtitle {
-      font-size: clamp(1rem, 4vw, 1.2rem);
-      color: var(--muted);
-      max-width: 550px;
-      margin: 0 auto;
-    }
+    header .subtitle { font-size: clamp(1rem, 4vw, 1.25rem); color: var(--muted); max-width: 600px; margin: 0 auto; }
     header .subtitle strong { color: var(--secondary); }
-
+    
     /* --- General Section Styling --- */
-    section {
-      padding: 60px 0;
-    }
-    h2 {
-      font-size: 2rem;
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    h2::after {
-      content: '.';
-      color: var(--secondary);
-    }
+    section { padding: 80px 0; }
+    .section-title { font-size: 2.5rem; text-align: center; margin-bottom: 3rem; }
+    .section-title::after { content: '.'; color: var(--secondary); }
     
     /* Scroll Reveal Animation */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s, transform 1s;
-      transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* --- Project Section --- */
-    .projects-container {
-      display: flex;
-      flex-direction: column;
-      gap: 3rem;
-    }
-    .project-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid rgba(128, 159, 255, 0.1);
-      box-shadow: 0 8px 30px var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .project-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 40px var(--shadow);
+    .reveal { opacity: 0; transform: translateY(50px); transition: opacity 1s, transform 1s; transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    
+    /* --- About Me Section --- */
+    .about-content {
+      text-align: center; max-width: 700px; margin: 0 auto;
+      font-size: 1.1rem; color: var(--muted);
     }
     
-    .project-banner {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
+    /* --- Experience Section --- */
+    .experience-timeline {
+        position: relative; max-width: 800px; margin: 0 auto;
     }
-    
-    .project-content {
-      padding: 1.5rem;
-      position: relative;
+    .experience-timeline::after {
+        content: ''; position: absolute; width: 4px;
+        background-color: var(--surface); top: 0; bottom: 0; left: 50%;
+        margin-left: -2px; border-radius: 2px;
     }
-    
-    .project-logo {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid var(--bg);
-      position: absolute;
-      top: -40px; /* Overlap banner */
-      right: 1.5rem;
+    .timeline-item {
+        padding: 10px 40px; position: relative; width: 50%;
     }
+    .timeline-item::after {
+        content: ''; position: absolute; width: 20px; height: 20px;
+        right: -10px; background-color: var(--bg); border: 4px solid var(--secondary);
+        top: 20px; border-radius: 50%; z-index: 1;
+    }
+    .timeline-item.left { left: 0; }
+    .timeline-item.right { left: 50%; }
+    .timeline-item.right::after { left: -10px; }
+    .timeline-content {
+        padding: 20px; background: var(--surface); border-radius: var(--radius);
+        box-shadow: 0 4px 20px var(--shadow);
+    }
+    .timeline-content h3 { color: var(--secondary); }
 
-    .project-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
+    /* --- Featured Projects Section --- */
+    .project-preview { text-align: center; }
+    .project-preview p { max-width: 600px; margin: 0 auto 2rem auto; color: var(--muted); font-size: 1.1rem; }
+    .cta-button {
+        display: inline-block; background: var(--primary); color: var(--bg);
+        text-decoration: none; padding: 14px 28px; border-radius: 8px;
+        font-weight: 700; transition: all 0.3s ease;
     }
-
-    .project-header h3 {
-      font-size: 1.75rem;
-      margin: 0;
-    }
-    
-    .project-tag {
-      font-size: 0.8rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
-      text-transform: uppercase;
-    }
-    .tag-coming-soon {
-      background: var(--tag-coming-soon-bg);
-      color: var(--tag-coming-soon-text);
-    }
-    .tag-closed {
-      background: var(--tag-closed-bg);
-      color: var(--tag-closed-text);
-    }
-
-    .project-description {
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-    }
-
-    .project-features {
-      list-style: none;
-      padding-left: 0;
-      margin-bottom: 2rem;
-    }
-    .project-features li {
-      margin-bottom: 0.5rem;
-      padding-left: 1.5rem;
-      position: relative;
-    }
-    .project-features li::before {
-      content: '✓';
-      color: var(--secondary);
-      position: absolute;
-      left: 0;
-      font-weight: 700;
-    }
-    
-    .invite-button {
-      display: inline-block;
-      background: var(--primary);
-      color: var(--bg);
-      text-decoration: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: 700;
-      transition: background-color 0.2s ease;
-    }
-    .invite-button:hover {
-      background: var(--secondary);
-    }
-
+    .cta-button:hover { background: var(--secondary); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(93, 228, 228, 0.3); }
 
     /* --- Contact & Footer --- */
     .contact-info { text-align: center; }
-    .contact-info p {
-      font-size: 1.1rem;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-    .discord-link {
-      color: var(--secondary);
-      font-weight: 700;
-      text-decoration: none;
-      font-size: 1.25rem;
-      transition: color 0.2s;
-    }
+    .discord-link { color: var(--secondary); font-weight: 700; text-decoration: none; font-size: 1.5rem; transition: color 0.2s; }
     .discord-link:hover { color: #87fffb; }
+    footer { text-align: center; padding: 2rem 0; margin-top: 4rem; border-top: 1px solid rgba(128, 159, 255, 0.1); color: var(--muted); }
 
-    footer {
-      text-align: center;
-      padding: 2rem 0;
-      margin-top: 4rem;
-      border-top: 1px solid rgba(128, 159, 255, 0.1);
-      color: var(--muted);
-    }
-    
-    /* --- Tablet and Desktop Styles (Mobile First) --- */
-    @media (min-width: 768px) {
-      .menu-toggle { display: none; }
-      .nav-links { display: flex; }
-
-      .projects-container {
-        gap: 4rem;
-      }
-
-      .project-card {
-        display: flex;
-        align-items: center;
-      }
-
-      .project-card:nth-child(even) {
-        flex-direction: row-reverse;
-      }
-      
-      .project-banner-container {
-        flex: 1 1 50%; /* Flexbox for banner */
-      }
-
-      .project-banner {
-        height: 100%;
-        border-radius: var(--radius) 0 0 var(--radius);
-      }
-      .project-card:nth-child(even) .project-banner {
-        border-radius: 0 var(--radius) var(--radius) 0;
-      }
-
-      .project-content {
-        flex: 1 1 50%;
-        padding: 2rem;
-      }
-      
-      .project-logo {
-        width: 90px;
-        height: 90px;
-        top: 2rem;
-        right: -45px; /* Overlap card edge */
-      }
-      .project-card:nth-child(even) .project-logo {
-        right: auto;
-        left: -45px;
-      }
+    /* --- Responsive --- */
+    @media (max-width: 768px) {
+        .nav-links { display: none; } /* Simplified for this example, can be replaced with hamburger menu JS */
+        .experience-timeline::after { left: 20px; }
+        .timeline-item { width: 100%; padding-left: 60px; padding-right: 15px; }
+        .timeline-item.right { left: 0; }
+        .timeline-item::after { left: 12px; }
     }
   </style>
 </head>
 <body>
-
   <div class="page">
     <nav>
       <div class="container nav-container">
-        <div class="brand">Azhaan</div>
+        <a href="index.html" class="brand">Azhaan</a>
         <div class="nav-links">
-          <a href="#projects">Projects</a>
+          <a href="index.html" class="active">Home</a>
+          <a href="projects.html">Projects</a>
           <a href="#contact">Contact</a>
         </div>
-        <button class="menu-toggle" aria-label="Open menu">
-          <div class="hamburger"></div>
-        </button>
       </div>
     </nav>
-    <div class="mobile-nav">
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-    </div>
 
     <header>
       <canvas id="particle-canvas"></canvas>
-      <div class="container">
+      <div class="header-content">
         <img src="YOUR_AVATAR_LINK_HERE" alt="Azhaan Avatar" class="avatar" />
         <h1>Azhaan</h1>
         <p class="subtitle">
-          Building immersive digital experiences with a focus on <strong>Minecraft Servers</strong> and custom <strong>Discord Bots</strong>.
+          Crafting high-performance <strong>Minecraft Servers</strong> & intelligent <strong>Discord Bots</strong>.
         </p>
       </div>
     </header>
 
     <main class="container">
-      <section id="projects" class="reveal">
-        <h2>My Creations</h2>
-        <div class="projects-container">
-          
-          <article class="project-card">
-            <div class="project-banner-container">
-              <img src="YOUR_ZYROX_BANNER_LINK_HERE" alt="Zyrox X Banner" class="project-banner"/>
-            </div>
-            <div class="project-content">
-              <img src="YOUR_ZYROX_LOGO_LINK_HERE" alt="Zyrox X Logo" class="project-logo"/>
-              <div class="project-header">
-                <h3>Zyrox X</h3>
-                <span class="project-tag tag-coming-soon">Coming Soon</span>
-              </div>
-              <p class="project-description">An all-in-one solution for Discord server management, Zyrox X is engineered for security, engagement, and seamless administration.</p>
-              <ul class="project-features">
-                <li>Advanced Anti-Nuke & Anti-Raid Systems</li>
-                <li>Automated Moderation and Logging</li>
-                <li>Customizable Welcome & Goodbye Messages</li>
-                <li>Engaging Utility and Fun Commands</li>
-              </ul>
-              <a href="YOUR_DISCORD_INVITE_LINK_HERE" class="invite-button" target="_blank" rel="noopener noreferrer">Invite Bot</a>
-            </div>
-          </article>
-          
-          <article class="project-card">
-            <div class="project-banner-container">
-              <img src="YOUR_BLASTMC_BANNER_LINK_HERE" alt="Blast MC Banner" class="project-banner"/>
-            </div>
-            <div class="project-content">
-              <img src="YOUR_BLASTMC_LOGO_LINK_HERE" alt="Blast MC Logo" class="project-logo"/>
-              <div class="project-header">
-                <h3>Blast MC</h3>
-                <span class="project-tag tag-closed">Closed</span>
-              </div>
-              <p class="project-description">A premier Minecraft server experience built from the ground up, focusing on performance, stability, and unique community-driven gameplay features.</p>
-              <ul class="project-features">
-                <li>78+ Custom Servers Deployed</li>
-                <li>Optimized for Lag-Free Gameplay</li>
-                <li>Plugin-Free, Vanilla-True Architecture</li>
-                <li>Tailored Environments for Communities</li>
-              </ul>
-            </div>
-          </article>
-          
-          <article class="project-card">
-            <div class="project-banner-container">
-              <img src="YOUR_COMINGSOON_BANNER_LINK_HERE" alt="Coming Soon Banner" class="project-banner"/>
-            </div>
-            <div class="project-content">
-              <img src="YOUR_COMINGSOON_LOGO_LINK_HERE" alt="Question Mark Logo" class="project-logo"/>
-              <div class="project-header">
-                <h3>Future Projects</h3>
-              </div>
-              <p class="project-description">Innovation never stops. I am actively developing the next generation of tools and experiences to push the boundaries of what's possible.</p>
-              <ul class="project-features">
-                <li>Exploring Web3 & DApp Integration</li>
-                <li>Advanced AI-Powered Automation</li>
-                <li>Next-Gen Game Server Management</li>
-                <li>Stay Tuned for More Information</li>
-              </ul>
-            </div>
-          </article>
+      <section id="about" class="reveal">
+          <h2 class="section-title">About Me</h2>
+          <div class="about-content">
+              <p>Hello! I'm Azhaan, a dedicated developer with 5 years of hands-on experience in the digital realm. My passion lies in building efficient, scalable, and engaging platforms from the ground up. Whether it's architecting a plugin-free Minecraft server or developing a feature-rich Discord bot, I thrive on challenges and deliver excellence.</p>
+          </div>
+      </section>
 
+      <section id="experience" class="reveal">
+        <h2 class="section-title">My Experience</h2>
+        <div class="experience-timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>Minecraft Server Architect</h3>
+                    <p>Developed and deployed over 78 custom Minecraft servers. Specialized in creating optimized, stable, and secure environments without relying on third-party plugins, showcasing a deep understanding of core server mechanics.</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>Discord Bot Developer</h3>
+                    <p>Engineered multi-purpose Discord bots using Python and Node.js. My work includes complex systems for anti-nuke security, automated moderation, user engagement, and custom API integrations.</p>
+                </div>
+            </div>
+             <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>Core Technologies</h3>
+                    <p>Proficient in Python, Node.js, and JavaScript. Experienced with server hosting, database management, and creating seamless user experiences across platforms.</p>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      <section id="projects" class="reveal">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="project-preview">
+            <p>I've worked on a range of projects, from large-scale game servers to sophisticated automation bots. Here's a glimpse of my work. Click below to see the full details.</p>
+            <a href="projects.html" class="cta-button">View All Projects</a>
         </div>
       </section>
 
       <section id="contact" class="reveal">
-        <h2>Let's Connect</h2>
+        <h2 class="section-title">Let's Connect</h2>
         <div class="contact-info">
           <p>Have an idea or want to work together? The best way to reach me is on Discord.</p>
           <a href="https://discord.com/users/azhaan.dev.exe" class="discord-link" target="_blank" rel="noopener noreferrer">azhaan.dev.exe</a>
@@ -502,115 +196,40 @@
 
     <footer>
       <div class="container">
-        &copy; 2025 Azhaan. Crafted with passion.
+        &copy; 2025 Azhaan. Designed with passion and code.
       </div>
     </footer>
   </div>
 
   <script>
-    // --- Mobile Menu Toggle ---
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mobileNav = document.querySelector('.mobile-nav');
-    menuToggle.addEventListener('click', () => {
-      document.body.classList.toggle('menu-open');
-    });
-    document.querySelectorAll('.mobile-nav a').forEach(link => {
-      link.addEventListener('click', () => {
-        document.body.classList.remove('menu-open');
-      });
-    });
-
-    // --- Particle Background ---
+    // Particle background script
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    let particlesArray;
-
-    const mouse = { x: null, y: null, radius: (canvas.height/120) * (canvas.width/120) };
-    window.addEventListener('mousemove', e => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
-
-    class Particle {
-      constructor(x, y, dirX, dirY, size, color) {
-        this.x = x; this.y = y; this.dirX = dirX; this.dirY = dirY;
-        this.size = size; this.color = color;
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-        ctx.fillStyle = 'rgba(128, 159, 255, 0.4)';
-        ctx.fill();
-      }
-      update() {
-        if (this.x > canvas.width || this.x < 0) this.dirX = -this.dirX;
-        if (this.y > canvas.height || this.y < 0) this.dirY = -this.dirY;
-
-        let dx = mouse.x - this.x;
-        let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx*dx + dy*dy);
-        if(distance < mouse.radius + this.size){
-          if(mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 3;
-          if(mouse.x > this.x && this.x > this.size * 10) this.x -= 3;
-          if(mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 3;
-          if(mouse.y > this.y && this.y > this.size * 10) this.y -= 3;
-        }
-        this.x += this.dirX;
-        this.y += this.dirY;
-        this.draw();
-      }
-    }
-
-    function initParticles() {
-      particlesArray = [];
-      let numParticles = (canvas.height * canvas.width) / 9000;
-      for (let i=0; i < numParticles; i++) {
-        let size = (Math.random() * 2) + 1;
-        let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-        let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-        let dirX = (Math.random() * 0.4) - 0.2;
-        let dirY = (Math.random() * 0.4) - 0.2;
-        particlesArray.push(new Particle(x, y, dirX, dirY, size, '#809fff'));
-      }
-    }
-
-    function animateParticles() {
-      requestAnimationFrame(animateParticles);
-      ctx.clearRect(0,0,innerWidth, innerHeight);
-      for(let i=0; i<particlesArray.length; i++){
-        particlesArray[i].update();
-      }
-    }
-    
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = document.querySelector('header').offsetHeight; // Resize to header height
-      mouse.radius = (canvas.height/120) * (canvas.width/120);
-      initParticles();
-    });
-    
-    // Set initial canvas height
     canvas.height = document.querySelector('header').offsetHeight;
-    initParticles();
-    animateParticles();
+    let particlesArray;
+    class Particle {
+      constructor(x, y, dirX, dirY, size) { this.x = x; this.y = y; this.dirX = dirX; this.dirY = dirY; this.size = size; }
+      draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); ctx.fillStyle = 'rgba(128, 159, 255, 0.4)'; ctx.fill(); }
+      update() { if (this.x > canvas.width || this.x < 0) this.dirX = -this.dirX; if (this.y > canvas.height || this.y < 0) this.dirY = -this.dirY; this.x += this.dirX; this.y += this.dirY; this.draw(); }
+    }
+    function initParticles() {
+      particlesArray = []; let numParticles = (canvas.height * canvas.width) / 9000;
+      for (let i = 0; i < numParticles; i++) {
+        let size = (Math.random() * 2) + 1; let x = (Math.random() * (innerWidth - size * 2)); let y = (Math.random() * (innerHeight - size * 2));
+        let dirX = (Math.random() * 0.4) - 0.2; let dirY = (Math.random() * 0.4) - 0.2; particlesArray.push(new Particle(x, y, dirX, dirY, size));
+      }
+    }
+    function animateParticles() { requestAnimationFrame(animateParticles); ctx.clearRect(0, 0, innerWidth, innerHeight); for (let i = 0; i < particlesArray.length; i++) particlesArray[i].update(); }
+    initParticles(); animateParticles();
+    window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = document.querySelector('header').offsetHeight; initParticles(); });
 
-
-    // --- Scroll Reveal Script ---
+    // Scroll reveal script
     const sections = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
     }, { threshold: 0.1 });
-
-    sections.forEach(section => {
-      observer.observe(section);
-    });
+    sections.forEach(section => observer.observe(section));
   </script>
 </body>
 </html>
