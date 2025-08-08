@@ -3,172 +3,324 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Azhaan - Portfolio</title>
+  <title>Azhaan — Portfolio</title>
+  <meta name="theme-color" content="#0a1a2a" />
   <style>
-    body {
-      background-color: #0a1a2a;
-      color: #d0e7ff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
+    :root{
+      --bg:#0a1a2a;
+      --surface:#0f2136;
+      --panel:#142b4a;
+      --panel-2:#12253d;
+      --ink:#d0e7ff;
+      --muted:#a7c6ff;
+      --accent:#66b2ff;
+      --accent-2:#3399ff;
+      --success:#38f1a5;
+      --warn:#ffcc66;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --glow:0 0 0 rgba(102,178,255,.0);
+      --radius:14px;
     }
-    header {
-      background-color: #112244;
-      padding: 2rem 1.5rem;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      line-height:1.65;
+      background:
+        radial-gradient(1200px 900px at 85% -10%, rgba(51,153,255,.12), transparent 60%),
+        radial-gradient(900px 700px at 10% 110%, rgba(102,178,255,.10), transparent 60%),
+        var(--bg);
+      overflow-x:hidden;
     }
-    header h1 {
-      color: #3399ff;
-      margin: 0;
-      font-size: 2.8rem;
+
+    /* Subtle animated dot grid background */
+    .bg-dots{
+      position:fixed;
+      inset:0;
+      background-image: radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
+      background-size:26px 26px;
+      opacity:.25;
+      animation: drift 30s linear infinite;
+      z-index:0;
+      pointer-events:none;
     }
-    header p {
-      color: #a3c1ff;
-      margin: 0.5rem 0 0;
-      font-style: italic;
-      font-size: 1.1rem;
+    @keyframes drift{ from{background-position:0 0} to{background-position:200px 100px} }
+
+    /* Page fade-in */
+    .page{
+      opacity:0;
+      transform:translateY(8px);
+      animation: pageIn .8s ease .05s forwards;
+      position:relative;
+      z-index:1;
     }
-    header img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      margin-top: 1rem;
-      border: 3px solid #66b2ff;
-      object-fit: cover;
+    @keyframes pageIn{to{opacity:1; transform:none}}
+
+    /* Container */
+    .container{max-width:1080px; margin:0 auto; padding:0 20px}
+
+    /* Nav */
+    nav{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(to bottom, rgba(10,26,42,.8), rgba(10,26,42,.35));
+      border-bottom:1px solid rgba(102,178,255,.15);
     }
-    main {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      height:64px;
     }
-    section {
-      background-color: #142b4a;
-      margin-bottom: 2rem;
-      padding: 1.5rem 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(19, 60, 120, 0.6);
+    .brand{display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.3px}
+    .brand .dot{width:10px; height:10px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #aee0ff, #66b2ff 60%, #1e88ff 100%);
+      box-shadow:0 0 18px rgba(102,178,255,.8);
+      animation: pulse 2.4s ease-in-out infinite;
     }
-    h2 {
-      color: #3399ff;
-      border-bottom: 2px solid #66b2ff;
-      padding-bottom: 0.4rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
+    @keyframes pulse{50%{box-shadow:0 0 26px rgba(102,178,255,.95)}}
+    .brand span{color:#aee0ff}
+
+    .nav-links{display:flex; gap:18px}
+    .nav-links a{
+      color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:10px;
+      transition:.25s ease; font-weight:600; font-size:.95rem;
     }
-    p, li {
-      font-size: 1.1rem;
-      color: #c8d9ff;
+    .nav-links a:hover{background:rgba(102,178,255,.12); color:#dff0ff; transform:translateY(-1px)}
+    .cta{
+      background: linear-gradient(to right, #4d9eff, #3399ff);
+      color:#fff;
+      font-weight:700;
+      border-radius:10px;
+      padding:10px 18px;
+      text-decoration:none;
+      transition:.2s ease;
+      box-shadow: 0 4px 15px rgba(51,153,255,.3);
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0;
-      background-color: #12253d;
-      border-radius: 6px;
-      overflow: hidden;
+    .cta:hover{transform:translateY(-2px); box-shadow: 0 6px 20px rgba(51,153,255,.4);}
+
+    /* Header */
+    header{
+      text-align:center;
+      padding:100px 20px 80px;
+      position:relative;
     }
-    th, td {
-      border: 1px solid #3399ff;
-      padding: 0.85rem 1rem;
-      text-align: left;
-      color: #cfe0ff;
+    .avatar{
+      width:140px; height:140px;
+      border-radius:50%;
+      object-fit:cover;
+      border:4px solid var(--accent-2);
+      box-shadow: 0 0 35px var(--glow), var(--shadow);
+      margin-bottom:24px;
+      animation: float 4s ease-in-out infinite, glow 2.4s ease-in-out infinite;
     }
-    th {
-      background-color: #1b3b73;
-      font-weight: 600;
+    @keyframes float{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-12px)}
     }
-    ul {
-      list-style-type: none;
-      padding: 0;
+    @keyframes glow{50%{box-shadow: 0 0 50px rgba(102,178,255,.65), var(--shadow);}}
+
+    header h1{
+      font-size:3.5rem;
+      margin:0 0 12px;
+      background: linear-gradient(45deg, #fff, #a7c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing:-1px;
     }
-    ul li {
-      background: #1b3b73;
-      margin: 0.6rem 0;
-      padding: 0.8rem 1rem;
-      border-left: 7px solid #66b2ff;
-      border-radius: 4px;
-      transition: background-color 0.3s ease;
+    header .subtitle{
+      font-size:1.25rem; color:var(--muted);
+      max-width:650px; margin:0 auto;
     }
-    ul li:hover {
-      background-color: #29569a;
+    header .subtitle strong{color:var(--accent)}
+
+    /* Section Reveal Animation */
+    .reveal{
+      opacity:0;
+      transform:translateY(30px);
+      transition: opacity .8s ease, transform .8s ease;
     }
-    a.discord-link {
-      color: #66b2ff;
-      text-decoration: none;
-      font-weight: 600;
+    .reveal.visible{opacity:1; transform:none}
+
+    /* Content Sections */
+    section{
+      padding:60px 0;
+      border-top:1px solid rgba(102,178,255,.1);
     }
-    a.discord-link:hover {
-      text-decoration: underline;
+    h2{
+      font-size:2.5rem; color:var(--accent); text-align:center; margin:0 0 48px;
     }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background-color: #112244;
-      color: #66b2ff;
-      font-size: 0.9rem;
-      box-shadow: inset 0 1px 3px rgba(102, 178, 255, 0.3);
+
+    /* Experience Table */
+    .experience-table{
+      background:var(--panel-2);
+      border:1px solid rgba(102,178,255,.2);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+    }
+    .experience-table th, .experience-table td{padding:20px; text-align:left; border-bottom:1px solid rgba(102,178,255,.2);}
+    .experience-table th{background:var(--panel); font-size:1.1rem; color:var(--accent); width:35%}
+    .experience-table tr:last-child td{border-bottom:0}
+
+    /* Projects List */
+    .projects-list{
+      list-style:none; padding:0; display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+      gap:24px;
+    }
+    .projects-list li{
+      background:var(--panel);
+      border-radius:var(--radius);
+      padding:24px;
+      border:1px solid transparent;
+      transition:.3s ease;
+      box-shadow:var(--shadow);
+    }
+    .projects-list li:hover{transform:translateY(-5px); border-color:rgba(102,178,255,.4)}
+    .projects-list h3{font-size:1.4rem; color:var(--accent); margin:0 0 10px}
+    .projects-list p{margin:0; color:var(--muted)}
+    .tag{
+      display:inline-block;
+      background:rgba(102,178,255,.15);
+      color:var(--accent);
+      padding:4px 10px;
+      border-radius:20px;
+      font-size:.85rem; font-weight:600;
+      margin-top:16px;
+    }
+    .tag.wip{background:rgba(255,204,102,.2); color:var(--warn)}
+
+    /* Contact */
+    .contact-info{text-align:center; font-size:1.2rem}
+    .discord-link{
+      color:var(--accent); font-weight:700; text-decoration:none;
+      border-bottom:2px solid transparent; transition:.2s ease;
+    }
+    .discord-link:hover{border-color:var(--accent)}
+
+    /* Footer */
+    footer{
+      text-align:center;
+      padding:32px 20px;
+      margin-top:40px;
+      background:var(--surface);
+      border-top:1px solid rgba(102,178,255,.15);
+      color:var(--muted);
     }
   </style>
 </head>
 <body>
+  <div class="bg-dots"></div>
+  <div class="page">
+    <div class="container">
+      <nav>
+        <div class="nav-inner">
+          <div class="brand">
+            <span class="dot"></span>
+            <span>Azhaan</span>
+          </div>
+          <div class="nav-links">
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact" class="cta">Contact Me</a>
+          </div>
+        </div>
+      </nav>
 
-<header>
-  <h1>Azhaan</h1>
-  <p>Discord: azhaan.dev.exe | Minecraft & Bot Developer</p>
-  <img src="YOUR_AVATAR_LINK_HERE" alt="Azhaan Avatar" />
-</header>
+      <header>
+        <img src="YOUR_AVATAR_LINK_HERE" alt="Azhaan Avatar" class="avatar" />
+        <h1>Azhaan</h1>
+        <p class="subtitle">
+          Specialist in <strong>Minecraft Server Development</strong> & <strong>Discord Bot Creation</strong>
+        </p>
+      </header>
 
-<main>
+      <main>
+        <section id="experience" class="reveal">
+          <h2>Experience</h2>
+          <table class="experience-table">
+            <tbody>
+              <tr>
+                <th>Minecraft Server Dev</th>
+                <td>Developed 78+ custom Minecraft servers without plugins, focusing on vanilla architecture, optimization, and unique gameplay environments.</td>
+              </tr>
+              <tr>
+                <th>Discord Bot Dev</th>
+                <td>Created advanced, interactive bots for Discord using Python, Node.js, and JavaScript for automation, moderation, and community engagement.</td>
+              </tr>
+              <tr>
+                <th>Core Languages</th>
+                <td>Python, Node.js, JavaScript</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
 
-  <section>
-    <h2>About Me</h2>
-    <p>Hello! I’m <strong>Azhaan</strong>, a dedicated developer with 5 years of experience specializing in Minecraft server development and Discord bot creation. Skilled in Python, Node.js, and JavaScript, I build custom server environments and advanced bots tailored to community and automation needs.</p>
-  </section>
+        <section id="projects" class="reveal">
+          <h2>Projects</h2>
+          <ul class="projects-list">
+            <li>
+              <h3>Zyrox X</h3>
+              <p>A multipurpose Discord bot with antinuke, automod, welcomer, and other rich features for server management.</p>
+              <span class="tag">Discord Bot</span>
+            </li>
+            <li>
+              <h3>Blast MC</h3>
+              <p>A premier Minecraft server offering highly optimized gameplay and custom features for a large community.</p>
+              <span class="tag">Minecraft Server</span>
+            </li>
+            <li>
+              <h3>Coming Soon</h3>
+              <p>Exciting new projects are currently under development. Stay tuned for future announcements!</p>
+              <span class="tag wip">In Progress</span>
+            </li>
+          </ul>
+        </section>
 
-  <section>
-    <h2>Experience</h2>
-    <table>
-      <thead>
-        <tr><th>Role / Skill</th><th>Details</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Minecraft Server Development</td>
-          <td>Developed 78+ custom Minecraft servers without plugins, focusing on vanilla server architecture, optimization, and custom environments</td>
-        </tr>
-        <tr>
-          <td>Discord Bot Development</td>
-          <td>Created animated, interactive bots for Discord using Python, Node.js, and JavaScript for automation, moderation, and engagement</td>
-        </tr>
-        <tr>
-          <td>Main Languages</td>
-          <td>Python, Node.js, JavaScript</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+        <section id="contact" class="reveal">
+          <h2>Get In Touch</h2>
+          <div class="contact-info">
+            <p>Connect with me on Discord:</p>
+            <a href="https://discord.com/users/azhaan.dev.exe" class="discord-link" target="_blank" rel="noopener noreferrer">azhaan.dev.exe</a>
+          </div>
+        </section>
+      </main>
+    </div>
 
-  <section>
-    <h2>Projects</h2>
-    <ul>
-      <li><strong>Zyrox X:</strong> A multipurpose Discord bot with antinuke, automod, welcomer, and more features.</li>
-      <li><strong>Blast MC:</strong> Best Minecraft server offering optimized gameplay and community features.</li>
-      <li><strong>Coming Soon:</strong> Exciting new projects under development—stay tuned!</li>
-    </ul>
-  </section>
+    <footer>
+      &copy; 2025 Azhaan. All rights reserved.
+    </footer>
+  </div>
 
-  <section>
-    <h2>Contact</h2>
-    <p>Connect with me on Discord: <a href="https://discord.com/users/azhaan.dev.exe" class="discord-link" target="_blank" rel="noopener noreferrer">azhaan.dev.exe</a></p>
-  </section>
+  <script>
+    // Reveal on scroll animation
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealOnScroll = () => {
+      const windowHeight = window.innerHeight;
+      revealElements.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        if (elementTop < windowHeight - 100) {
+          el.classList.add('visible');
+        }
+      });
+    };
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll(); // Initial check
 
-</main>
-
-<footer>
-  &copy; 2025 Azhaan. All rights reserved.
-</footer>
-
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
 </body>
 </html>
