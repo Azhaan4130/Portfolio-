@@ -25,28 +25,28 @@
       font-family: 'Inter', system-ui, sans-serif;
       line-height: 1.7; overflow-x: hidden;
     }
-    /* --- Loading Animation --- */
+    /* --- New Aegis-Style Loading Animation --- */
     .loader {
         position: fixed; inset: 0; background: var(--bg);
         display: flex; flex-direction: column; align-items: center; justify-content: center;
         z-index: 9999;
         transition: opacity 1s ease, visibility 1s ease;
-        transition-delay: 3.5s;
+        transition-delay: 0.5s;
     }
     .loader-content { text-align: center; }
-    .loader-brand { font-size: 2.5rem; font-weight: 700; color: var(--ink); opacity: 0; animation: loaderFadeIn 1s ease forwards; }
-    .loader-text { font-size: 1rem; color: var(--muted); margin-top: 1rem; opacity: 0; animation: loaderTextCycle 3.5s ease-in-out forwards; white-space: nowrap; }
-    @keyframes loaderFadeIn { to { opacity: 1; } }
-    @keyframes loaderTextCycle {
-        0%, 100% { content: "Preparing the pixels..."; opacity: 0; }
-        10%, 30% { opacity: 1; }
-        33% { content: "Assembling the code..."; opacity: 0; }
-        43%, 63% { opacity: 1; }
-        66% { content: "Finalizing the design..."; opacity: 0; }
-        76%, 96% { opacity: 1; }
+    .loader-brand { font-size: 2.5rem; font-weight: 700; color: var(--ink); margin-bottom: 2rem; }
+    .progress-bar-container {
+        width: 250px; height: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px; margin: 1.5rem 0 1rem;
+        overflow: hidden;
     }
+    .progress-bar { width: 0%; height: 100%; background: var(--secondary); border-radius: 4px; transition: width 0.1s linear; }
+    .loader-percentage { color: var(--muted); font-weight: 600; margin-bottom: 1rem; }
+    .loader-text { color: var(--muted); }
+    
     body.loaded .loader { opacity: 0; visibility: hidden; }
-    .page { opacity: 0; transition: opacity 1s ease 3.5s; }
+    .page { opacity: 0; transition: opacity 1s ease; }
     body.loaded .page { opacity: 1; }
     
     .container { width: 90%; max-width: 1100px; margin: 0 auto; }
@@ -103,7 +103,12 @@
     .experience-item h3 { color: var(--secondary); margin-bottom: 0.5rem; }
     .experience-item p { color: var(--muted); }
 
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+    /* --- Updated Skills Grid (2 per line) --- */
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
     .skill-box {
         display: flex; flex-direction: column; align-items: center; justify-content: center;
         gap: 1rem; background: var(--surface);
@@ -134,13 +139,23 @@
     .discord-link { color: var(--secondary); font-weight: 700; text-decoration: none; font-size: 1.5rem; transition: color 0.2s; }
     .discord-link:hover { color: #87fffb; text-shadow: 0 0 10px var(--secondary); }
     footer { text-align: center; padding: 2rem 0; margin-top: 4rem; border-top: 1px solid rgba(0, 174, 255, 0.1); color: var(--muted); }
+    
+    @media (max-width: 600px) {
+        .skills-grid {
+            grid-template-columns: 1fr;
+        }
+    }
   </style>
 </head>
 <body>
   <div class="loader">
     <div class="loader-content">
       <div class="loader-brand">Azhaan</div>
-      <div class="loader-text">Preparing the pixels...</div>
+      <div class="progress-bar-container">
+          <div class="progress-bar"></div>
+      </div>
+      <div class="loader-percentage">0%</div>
+      <div class="loader-text">Loading components...</div>
     </div>
   </div>
   <div class="background-animation">
@@ -199,27 +214,27 @@
         <h2 class="section-title">My Skills</h2>
         <div class="skills-grid">
             <div class="skill-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
               JavaScript & TypeScript
             </div>
             <div class="skill-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"></path><path d="M10 2c1 .5 2 2 2 5"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"></path><path d="M10 2c1 .5 2 2 2 5"></path></svg>
               Python
             </div>
             <div class="skill-box">
-               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12.5 15a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"></path><path d="M8 18h1"></path><path d="M15 18h1"></path></svg>
+               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12.5 15a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"></path><path d="M8 18h1"></path><path d="M15 18h1"></path></svg>
               Java
             </div>
             <div class="skill-box">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 12H16c-.7 2-2 3-4 3s-3.3-1-4-3H2.5"></path><path d="M16 9.9a12.6 12.6 0 0 1-1.5-1.2 3.2 3.2 0 0 0-4.4 0 12.6 12.6 0 0 1-1.6 1.2"></path><path d="M16 14.1a12.6 12.6 0 0 0-1.5 1.2 3.2 3.2 0 0 1-4.4 0 12.6 12.6 0 0 0-1.6-1.2"></path><path d="M12 2v2"></path><path d="m4.9 4.9 1.4 1.4"></path><path d="M2 12h2"></path><path d="m4.9 19.1 1.4-1.4"></path><path d="M12 20v2"></path><path d="m19.1 19.1-1.4-1.4"></path><path d="M22 12h-2"></path><path d="m19.1 4.9-1.4 1.4"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 12H16c-.7 2-2 3-4 3s-3.3-1-4-3H2.5"></path><path d="M16 9.9a12.6 12.6 0 0 1-1.5-1.2 3.2 3.2 0 0 0-4.4 0 12.6 12.6 0 0 1-1.6 1.2"></path><path d="M16 14.1a12.6 12.6 0 0 0-1.5 1.2 3.2 3.2 0 0 1-4.4 0 12.6 12.6 0 0 0-1.6-1.2"></path><path d="M12 2v2"></path><path d="m4.9 4.9 1.4 1.4"></path><path d="M2 12h2"></path><path d="m4.9 19.1 1.4-1.4"></path><path d="M12 20v2"></path><path d="m19.1 19.1-1.4-1.4"></path><path d="M22 12h-2"></path><path d="m19.1 4.9-1.4 1.4"></path></svg>
                 Rust
             </div>
             <div class="skill-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 5 14.9"></path><path d="M12 12v9"></path><path d="m16 16-4-4-4 4"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 5 14.9"></path><path d="M12 12v9"></path><path d="m16 16-4-4-4 4"></path></svg>
               Node.js
             </div>
             <div class="skill-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
               SQL & NoSQL
             </div>
         </div>
@@ -249,23 +264,27 @@
     </footer>
   </div>
   <script>
+    // --- Loading Animation ---
     window.addEventListener('load', () => {
-        const loaderText = document.querySelector('.loader-text');
-        const texts = ["Preparing the pixels...", "Assembling the code...", "Finalizing the design..."];
-        let index = 0;
-        const cycleText = () => {
-            if (!loaderText) return;
-            loaderText.textContent = texts[index];
-            index = (index + 1) % texts.length;
-        };
-        cycleText();
-        const intervalId = setInterval(cycleText, 1166);
-        setTimeout(() => {
-            clearInterval(intervalId);
-            document.body.classList.add('loaded');
-        }, 3500);
+        const progressBar = document.querySelector('.progress-bar');
+        const percentageText = document.querySelector('.loader-percentage');
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 1;
+            if(progressBar) progressBar.style.width = progress + '%';
+            if(percentageText) percentageText.textContent = progress + '%';
+
+            if (progress >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    document.body.classList.add('loaded');
+                }, 500); // Wait half a second after 100%
+            }
+        }, 30);
     });
 
+    // --- Staggered Reveal Animation ---
     const revealElements = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver(entries => {
       entries.forEach((entry, i) => { 
