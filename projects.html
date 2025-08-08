@@ -10,7 +10,7 @@
     :root {
       --bg: #0a101a; --surface: #101623; --primary: #809fff;
       --secondary: #5de4e4; --ink: #e0e8ff; --muted: #a0b3d7;
-      --shadow: rgba(0, 0, 0, 0.25); --radius: 12px;
+      --shadow: rgba(0, 0, 0, 0.25); --radius: 16px;
       --tag-coming-soon-bg: rgba(255, 170, 51, 0.15); --tag-coming-soon-text: #ffaa33;
       --tag-closed-bg: rgba(255, 82, 82, 0.15); --tag-closed-text: #ff5252;
     }
@@ -28,13 +28,15 @@
     /* --- Navigation --- */
     nav {
       position: sticky; top: 0; z-index: 1000; padding: 16px 0;
-      background: rgba(10, 16, 26, 0.7); backdrop-filter: blur(16px);
+      background: rgba(10, 16, 26, 0.7); backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(128, 159, 255, 0.1);
     }
     .nav-container { display: flex; align-items: center; justify-content: space-between; }
     .brand { font-weight: 700; font-size: 1.25rem; color: var(--ink); text-decoration: none; }
     .nav-links { display: flex; gap: 2rem; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-weight: 600; transition: color 0.2s ease; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-weight: 600; transition: color 0.2s ease; position: relative; padding-bottom: 4px;}
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--primary); transition: width 0.3s ease; }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
     .nav-links a:hover, .nav-links a.active { color: var(--primary); }
     
     /* --- Main Content --- */
@@ -49,13 +51,25 @@
     .project-card {
       background: var(--surface); border-radius: var(--radius); overflow: hidden;
       border: 1px solid rgba(128, 159, 255, 0.1);
-      box-shadow: 0 8px 30px var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: flex; flex-direction: column;
+      box-shadow: 0 8px 32px var(--shadow);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      display: flex; flex-direction: column; position: relative;
     }
-    .project-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px var(--shadow); }
+    .project-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: var(--radius);
+      padding: 1px;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      opacity: 0; transition: opacity 0.4s ease;
+    }
+    .project-card:hover { transform: translateY(-10px); box-shadow: 0 16px 50px var(--shadow); }
+    .project-card:hover::before { opacity: 1; }
+
     .project-banner { width: 100%; height: 200px; object-fit: cover; }
-    .project-content { padding: 1.5rem; position: relative; flex-grow: 1; display: flex; flex-direction: column;}
+    .project-content { padding: 1.5rem; position: relative; flex-grow: 1; display: flex; flex-direction: column; z-index: 1;}
     .project-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
     .project-header h3 { font-size: 1.75rem; margin: 0; }
     .project-tag { font-size: 0.8rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
@@ -65,12 +79,18 @@
     .project-features { list-style: none; padding-left: 0; margin-bottom: 2rem; flex-grow: 1;}
     .project-features li { margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative; }
     .project-features li::before { content: '✓'; color: var(--secondary); position: absolute; left: 0; font-weight: 700; }
-    .invite-button {
-        display: inline-block; background: var(--primary); color: var(--bg);
-        text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 700;
-        transition: all 0.3s ease; text-align: center;
+    
+    .project-buttons { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: auto;}
+    .button {
+        display: inline-block;
+        text-decoration: none; padding: 10px 20px; border-radius: 8px;
+        font-weight: 700; transition: all 0.3s ease; text-align: center;
+        flex-grow: 1;
     }
-    .invite-button:hover { background: var(--secondary); transform: scale(1.05); }
+    .button-primary { background: var(--primary); color: var(--bg); }
+    .button-secondary { background: transparent; color: var(--secondary); border: 2px solid var(--secondary); }
+    .button:hover { transform: scale(1.05); }
+
     footer { text-align: center; padding: 2rem 0; margin-top: 4rem; border-top: 1px solid rgba(128, 159, 255, 0.1); color: var(--muted); }
   </style>
 </head>
@@ -107,7 +127,10 @@
               <li>Customizable Welcome & Goodbye Messages</li>
               <li>Engaging Utility and Fun Commands</li>
             </ul>
-            <a href="YOUR_DISCORD_INVITE_LINK_HERE" class="invite-button" target="_blank" rel="noopener noreferrer">Invite Bot</a>
+            <div class="project-buttons">
+                <a href="YOUR_BOT_WEBSITE_LINK_HERE" class="button button-secondary" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="YOUR_DISCORD_INVITE_LINK_HERE" class="button button-primary" target="_blank" rel="noopener noreferrer">Invite Bot</a>
+            </div>
           </div>
         </article>
         
