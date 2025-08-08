@@ -27,37 +27,27 @@
     }
     /* --- Loading Animation --- */
     .loader {
-        position: fixed;
-        inset: 0;
-        background: var(--bg);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        position: fixed; inset: 0; background: var(--bg);
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
         z-index: 9999;
-        transition: opacity 0.8s ease, visibility 0.8s ease;
+        transition: opacity 1s ease, visibility 1s ease;
+        transition-delay: 3.5s;
     }
-    .loader-brand {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--ink);
-        opacity: 0;
-        animation: fadeInOut 2.5s ease-in-out forwards;
+    .loader-content { text-align: center; }
+    .loader-brand { font-size: 2.5rem; font-weight: 700; color: var(--ink); opacity: 0; animation: loaderFadeIn 1s ease forwards; }
+    .loader-text { font-size: 1rem; color: var(--muted); margin-top: 1rem; opacity: 0; animation: loaderTextCycle 3.5s ease-in-out forwards; white-space: nowrap; }
+    @keyframes loaderFadeIn { to { opacity: 1; } }
+    @keyframes loaderTextCycle {
+        0%, 100% { content: "Preparing the pixels..."; opacity: 0; }
+        10%, 30% { opacity: 1; }
+        33% { content: "Assembling the code..."; opacity: 0; }
+        43%, 63% { opacity: 1; }
+        66% { content: "Finalizing the design..."; opacity: 0; }
+        76%, 96% { opacity: 1; }
     }
-    @keyframes fadeInOut {
-        0%, 100% { opacity: 0; }
-        50% { opacity: 1; }
-    }
-    body.loaded .loader {
-        opacity: 0;
-        visibility: hidden;
-    }
-    .page {
-      opacity: 0;
-      transition: opacity 1s ease;
-    }
-    body.loaded .page {
-      opacity: 1;
-    }
+    body.loaded .loader { opacity: 0; visibility: hidden; }
+    .page { opacity: 0; transition: opacity 1s ease 3.5s; }
+    body.loaded .page { opacity: 1; }
     
     .container { width: 90%; max-width: 1100px; margin: 0 auto; }
     
@@ -89,9 +79,7 @@
     }
     @keyframes float { 50% { transform: translateY(-15px); } }
     @keyframes glowPulse { 50% { box-shadow: 0 0 80px var(--glow), 0 0 100px rgba(57, 211, 211, 0.4); } }
-    header h1 {
-      font-size: clamp(3rem, 10vw, 4.5rem); margin: 0 0 1rem; letter-spacing: -2px;
-    }
+    header h1 { font-size: clamp(3rem, 10vw, 4.5rem); margin: 0 0 1rem; letter-spacing: -2px; }
     header .subtitle { font-size: clamp(1rem, 4vw, 1.25rem); color: var(--muted); max-width: 600px; margin: 0 auto; }
     header .subtitle strong { color: var(--secondary); }
     
@@ -103,10 +91,8 @@
     .reveal.visible { opacity: 1; transform: translateY(0); }
     
     .glass-card {
-        background: var(--surface);
-        backdrop-filter: blur(15px);
-        border-radius: var(--radius);
-        padding: 2.5rem;
+        background: var(--surface); backdrop-filter: blur(15px);
+        border-radius: var(--radius); padding: 2.5rem;
         border: 1px solid rgba(0, 174, 255, 0.2);
         box-shadow: 0 8px 32px var(--shadow);
         transition: transform 0.3s ease;
@@ -117,50 +103,32 @@
     .experience-item h3 { color: var(--secondary); margin-bottom: 0.5rem; }
     .experience-item p { color: var(--muted); }
 
-    .skills-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        justify-content: center;
-    }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
     .skill-box {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        background: var(--surface);
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 1rem; background: var(--surface);
         border: 1px solid rgba(0, 174, 255, 0.15);
-        color: var(--muted);
-        padding: 12px 22px;
-        border-radius: 14px;
-        font-weight: 600;
-        cursor: pointer;
+        padding: 2rem; border-radius: 14px;
+        font-weight: 600; cursor: pointer; text-align: center;
         transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease;
     }
     .skill-box:hover {
         transform: translateY(-5px) scale(1.05);
-        color: var(--ink);
-        background: rgba(0, 174, 255, 0.1);
+        color: var(--ink); background: rgba(0, 174, 255, 0.1);
     }
-    .skill-box:active {
-        transform: translateY(-2px) scale(0.98);
-        transition-duration: 0.1s;
-    }
+    .skill-box:active { transform: translateY(-2px) scale(0.98); transition-duration: 0.1s; }
+    .skill-box svg { width: 40px; height: 40px; stroke: var(--secondary); transition: stroke 0.2s ease; }
+    .skill-box:hover svg { stroke: var(--primary); }
 
     .project-preview { text-align: center; }
     .project-preview p { max-width: 600px; margin: 0 auto 2rem auto; color: var(--muted); font-size: 1.1rem; }
     .cta-button {
-        position: relative;
-        display: inline-block; background: var(--primary); color: var(--bg);
+        position: relative; display: inline-block; background: var(--primary); color: var(--bg);
         text-decoration: none; padding: 14px 28px; border-radius: 12px;
         font-weight: 700; transition: all 0.2s ease;
     }
-    .cta-button:active {
-        transform: scale(0.95);
-    }
-    .cta-button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(0, 174, 255, 0.4);
-    }
+    .cta-button:active { transform: scale(0.95); }
+    .cta-button:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0, 174, 255, 0.4); }
 
     .contact-info { text-align: center; }
     .discord-link { color: var(--secondary); font-weight: 700; text-decoration: none; font-size: 1.5rem; transition: color 0.2s; }
@@ -170,7 +138,10 @@
 </head>
 <body>
   <div class="loader">
+    <div class="loader-content">
       <div class="loader-brand">Azhaan</div>
+      <div class="loader-text">Preparing the pixels...</div>
+    </div>
   </div>
   <div class="background-animation">
     <div class="circle circle-1"></div>
@@ -227,19 +198,30 @@
       <section id="skills" class="reveal">
         <h2 class="section-title">My Skills</h2>
         <div class="skills-grid">
-            <div class="skill-box">💻 JavaScript</div>
-            <div class="skill-box">🔷 TypeScript</div>
-            <div class="skill-box">🐍 Python</div>
-            <div class="skill-box">☕ Java</div>
-            <div class="skill-box">🐹 Go</div>
-            <div class="skill-box">🦀 Rust</div>
-            <div class="skill-box">⚛️ React</div>
-            <div class="skill-box">🌐 Next.js</div>
-            <div class="skill-box">🟢 Node.js</div>
-            <div class="skill-box">🐘 PostgreSQL</div>
-            <div class="skill-box">🍃 MongoDB</div>
-            <div class="skill-box">🐳 Docker</div>
-            <div class="skill-box">🐧 Linux</div>
+            <div class="skill-box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              JavaScript & TypeScript
+            </div>
+            <div class="skill-box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"></path><path d="M10 2c1 .5 2 2 2 5"></path></svg>
+              Python
+            </div>
+            <div class="skill-box">
+               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12.5 15a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"></path><path d="M8 18h1"></path><path d="M15 18h1"></path></svg>
+              Java
+            </div>
+            <div class="skill-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 12H16c-.7 2-2 3-4 3s-3.3-1-4-3H2.5"></path><path d="M16 9.9a12.6 12.6 0 0 1-1.5-1.2 3.2 3.2 0 0 0-4.4 0 12.6 12.6 0 0 1-1.6 1.2"></path><path d="M16 14.1a12.6 12.6 0 0 0-1.5 1.2 3.2 3.2 0 0 1-4.4 0 12.6 12.6 0 0 0-1.6-1.2"></path><path d="M12 2v2"></path><path d="m4.9 4.9 1.4 1.4"></path><path d="M2 12h2"></path><path d="m4.9 19.1 1.4-1.4"></path><path d="M12 20v2"></path><path d="m19.1 19.1-1.4-1.4"></path><path d="M22 12h-2"></path><path d="m19.1 4.9-1.4 1.4"></path></svg>
+                Rust
+            </div>
+            <div class="skill-box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 5 14.9"></path><path d="M12 12v9"></path><path d="m16 16-4-4-4 4"></path></svg>
+              Node.js
+            </div>
+            <div class="skill-box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+              SQL & NoSQL
+            </div>
         </div>
       </section>
 
@@ -268,18 +250,27 @@
   </div>
   <script>
     window.addEventListener('load', () => {
+        const loaderText = document.querySelector('.loader-text');
+        const texts = ["Preparing the pixels...", "Assembling the code...", "Finalizing the design..."];
+        let index = 0;
+        const cycleText = () => {
+            if (!loaderText) return;
+            loaderText.textContent = texts[index];
+            index = (index + 1) % texts.length;
+        };
+        cycleText();
+        const intervalId = setInterval(cycleText, 1166);
         setTimeout(() => {
+            clearInterval(intervalId);
             document.body.classList.add('loaded');
-        }, 500);
+        }, 3500);
     });
 
     const revealElements = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver(entries => {
       entries.forEach((entry, i) => { 
         if (entry.isIntersecting) { 
-          setTimeout(() => {
-            entry.target.classList.add('visible'); 
-          }, i * 100);
+          setTimeout(() => { entry.target.classList.add('visible'); }, i * 150);
           observer.unobserve(entry.target); 
         } 
       });
