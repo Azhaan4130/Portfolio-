@@ -1,32 +1,33 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Azhaan — Portfolio</title>
-  <meta name="description" content="Portfolio of Azhaan, a specialist in Minecraft Server Development & Discord Bot Creation." />
+  <title>Azhaan — Developer Portfolio</title>
+  <meta name="description" content="The portfolio of Azhaan, a specialist in Minecraft Server Development & Discord Bot Creation." />
   <meta name="theme-color" content="#0a101a" />
   <style>
     :root {
       --bg: #0a101a;
       --surface: #101623;
-      --panel: rgba(18, 26, 41, 0.5);
+      --primary: #809fff;
+      --secondary: #5de4e4;
       --ink: #e0e8ff;
       --muted: #a0b3d7;
-      --accent: #5de4e4;
-      --accent-2: #809fff;
-      --glow: rgba(128, 159, 255, 0.5);
-      --shadow: rgba(0, 0, 0, 0.4);
-      --radius: 16px;
+      --shadow: rgba(0, 0, 0, 0.2);
+      --glow: rgba(128, 159, 255, 0.4);
+      --radius: 12px;
+      --tag-coming-soon-bg: rgba(255, 170, 51, 0.15);
+      --tag-coming-soon-text: #ffaa33;
+      --tag-closed-bg: rgba(255, 82, 82, 0.15);
+      --tag-closed-text: #ff5252;
     }
 
-    * { box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html { scroll-behavior: smooth; }
 
     body {
-      margin: 0;
       background-color: var(--bg);
       color: var(--ink);
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -36,321 +37,568 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* --- Cursor Spotlight Effect --- */
-    .spotlight {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 100;
-      background: radial-gradient(circle at var(--x) var(--y), transparent 100px, rgba(0, 0, 0, 0.95) 250px);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    body:hover .spotlight { opacity: 1; }
-
-    /* --- Animated Aurora Background --- */
-    .aurora-background {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      overflow: hidden;
-    }
-    .aurora {
-      position: absolute;
-      border-radius: 50%;
-      mix-blend-mode: plus-lighter;
-      filter: blur(80px);
-      opacity: 0.4;
-    }
-    .aurora-1 {
-      width: 500px;
-      height: 500px;
-      background: #3355ff;
-      animation: move 20s infinite alternate;
-      top: -20%;
-      left: 10%;
-    }
-    .aurora-2 {
-      width: 400px;
-      height: 400px;
-      background: #5de4e4;
-      animation: move 25s infinite alternate-reverse;
-      bottom: -10%;
-      right: 20%;
-    }
-    @keyframes move {
-      from { transform: translate(-50%, -50%) rotate(0deg); }
-      to { transform: translate(50%, 50%) rotate(360deg); }
-    }
-
-    /* --- Main Layout & Content --- */
+    /* --- Page Load Animation --- */
     .page {
-      position: relative;
-      z-index: 1;
       opacity: 0;
-      animation: fadeIn 1s ease forwards;
+      transform: translateY(15px);
+      animation: pageIn 1s ease-out forwards;
     }
-    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes pageIn { to { opacity: 1; transform: none; } }
 
     .container {
+      width: 90%;
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 24px;
     }
-
+    
     /* --- Navigation --- */
     nav {
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 1000;
       padding: 16px 0;
-      background: rgba(10, 16, 26, 0.6);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(128, 159, 255, 0.15);
+      background: rgba(10, 16, 26, 0.7);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(128, 159, 255, 0.1);
     }
-    .nav-inner {
+    .nav-container {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
     .brand {
       font-weight: 700;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       color: var(--ink);
+    }
+    .nav-links {
+      display: none; /* Hidden by default on mobile */
+      gap: 1.5rem;
     }
     .nav-links a {
       color: var(--muted);
       text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      transition: all 0.2s ease;
-      font-weight: 500;
+      font-weight: 600;
+      transition: color 0.2s ease;
     }
-    .nav-links a:hover {
+    .nav-links a:hover { color: var(--primary); }
+    
+    /* Hamburger Menu for Mobile */
+    .menu-toggle {
+      display: block; /* Shown on mobile */
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .hamburger {
+      width: 24px;
+      height: 2px;
+      background: var(--ink);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .hamburger::before, .hamburger::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 2px;
+      background: var(--ink);
+      left: 0;
+      transition: all 0.3s ease;
+    }
+    .hamburger::before { top: -8px; }
+    .hamburger::after { bottom: -8px; }
+    
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 100%;
+      width: 100%;
+      height: 100vh;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      transition: left 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 999;
+    }
+    .mobile-nav a {
       color: var(--ink);
-      background: rgba(128, 159, 255, 0.1);
+      text-decoration: none;
+      font-size: 2rem;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    /* Active states for mobile menu */
+    body.menu-open .hamburger { background: transparent; }
+    body.menu-open .hamburger::before { transform: rotate(45deg); top: 0; }
+    body.menu-open .hamburger::after { transform: rotate(-45deg); bottom: 0; }
+    body.menu-open .mobile-nav { left: 0; }
+    body.menu-open .mobile-nav a {
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s;
     }
 
     /* --- Header --- */
     header {
       text-align: center;
-      padding: 120px 0 100px;
+      padding: 80px 0;
+      position: relative;
+    }
+    #particle-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
     }
     .avatar {
-      width: 140px;
-      height: 140px;
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid var(--accent);
-      box-shadow: 0 0 40px rgba(93, 228, 228, 0.4), 0 0 60px rgba(93, 228, 228, 0.2);
-      margin-bottom: 24px;
-      animation: float 4s ease-in-out infinite;
+      border: 3px solid var(--secondary);
+      box-shadow: 0 0 30px rgba(93, 228, 228, 0.3), 0 4px 20px var(--shadow);
+      margin-bottom: 1.5rem;
+      animation: float 5s ease-in-out infinite;
     }
-    @keyframes float {
-      50% { transform: translateY(-10px); }
-    }
+    @keyframes float { 50% { transform: translateY(-12px); } }
+    
     header h1 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      margin: 0 0 12px;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      margin: 0 0 1rem;
+      letter-spacing: -1.5px;
       background: linear-gradient(45deg, #fff, var(--muted));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: -1.5px;
     }
     header .subtitle {
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-size: clamp(1rem, 4vw, 1.2rem);
       color: var(--muted);
-      max-width: 600px;
+      max-width: 550px;
       margin: 0 auto;
     }
-    header .subtitle strong { color: var(--accent); }
+    header .subtitle strong { color: var(--secondary); }
 
-    /* --- Section Reveal Animation --- */
+    /* --- General Section Styling --- */
     section {
-      padding: 80px 0;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
+      padding: 60px 0;
     }
     h2 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       text-align: center;
-      margin: 0 0 56px;
-      color: var(--ink);
+      margin-bottom: 3rem;
     }
     h2::after {
       content: '.';
-      color: var(--accent);
+      color: var(--secondary);
+    }
+    
+    /* Scroll Reveal Animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s, transform 1s;
+      transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    /* --- Bento Box Project Grid --- */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: minmax(200px, auto);
-      gap: 24px;
+    /* --- Project Section --- */
+    .projects-container {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
     }
     .project-card {
-      background: var(--panel);
+      background: var(--surface);
       border-radius: var(--radius);
-      padding: 24px 28px;
-      border: 1px solid rgba(128, 159, 255, 0.15);
-      transition: all 0.3s ease;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 8px 32px var(--shadow);
+      overflow: hidden;
+      border: 1px solid rgba(128, 159, 255, 0.1);
+      box-shadow: 0 8px 30px var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .project-card:hover {
       transform: translateY(-8px);
-      border-color: rgba(93, 228, 228, 0.4);
-      box-shadow: 0 16px 40px var(--shadow);
+      box-shadow: 0 12px 40px var(--shadow);
     }
-    .project-card h3 {
-      font-size: 1.5rem;
-      color: var(--ink);
-      margin: 0 0 10px;
+    
+    .project-banner {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
     }
-    .project-card p {
-      margin: 0;
-      color: var(--muted);
+    
+    .project-content {
+      padding: 1.5rem;
+      position: relative;
     }
-    /* Spanning items for bento layout */
-    .project-card:nth-child(1) { grid-column: span 2; }
-    .project-card:nth-child(2) { grid-column: span 1; }
-    .project-card:nth-child(3) { grid-column: span 3; }
+    
+    .project-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--bg);
+      position: absolute;
+      top: -40px; /* Overlap banner */
+      right: 1.5rem;
+    }
 
-    /* --- Contact --- */
-    .contact-info {
-      text-align: center;
-      font-size: 1.2rem;
+    .project-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-header h3 {
+      font-size: 1.75rem;
+      margin: 0;
+    }
+    
+    .project-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .tag-coming-soon {
+      background: var(--tag-coming-soon-bg);
+      color: var(--tag-coming-soon-text);
+    }
+    .tag-closed {
+      background: var(--tag-closed-bg);
+      color: var(--tag-closed-text);
+    }
+
+    .project-description {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .project-features {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 2rem;
+    }
+    .project-features li {
+      margin-bottom: 0.5rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    .project-features li::before {
+      content: '✓';
+      color: var(--secondary);
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+    }
+    
+    .invite-button {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--bg);
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      transition: background-color 0.2s ease;
+    }
+    .invite-button:hover {
+      background: var(--secondary);
+    }
+
+
+    /* --- Contact & Footer --- */
+    .contact-info { text-align: center; }
+    .contact-info p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
     }
     .discord-link {
-      color: var(--accent);
-      font-weight: 600;
+      color: var(--secondary);
+      font-weight: 700;
       text-decoration: none;
-      position: relative;
-      padding-bottom: 4px;
+      font-size: 1.25rem;
+      transition: color 0.2s;
     }
-    .discord-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.3s ease-out;
-    }
-    .discord-link:hover::after {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
+    .discord-link:hover { color: #87fffb; }
 
-    /* --- Footer --- */
     footer {
       text-align: center;
-      padding: 32px 24px;
-      margin-top: 60px;
-      background: var(--surface);
+      padding: 2rem 0;
+      margin-top: 4rem;
       border-top: 1px solid rgba(128, 159, 255, 0.1);
       color: var(--muted);
     }
     
-    /* --- Responsive Design --- */
-    @media (max-width: 768px) {
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
-      .project-card:nth-child(1),
-      .project-card:nth-child(2),
-      .project-card:nth-child(3) {
-        grid-column: span 1;
-      }
-      .nav-links { display: none; } /* Simple responsive nav */
-    }
+    /* --- Tablet and Desktop Styles (Mobile First) --- */
+    @media (min-width: 768px) {
+      .menu-toggle { display: none; }
+      .nav-links { display: flex; }
 
+      .projects-container {
+        gap: 4rem;
+      }
+
+      .project-card {
+        display: flex;
+        align-items: center;
+      }
+
+      .project-card:nth-child(even) {
+        flex-direction: row-reverse;
+      }
+      
+      .project-banner-container {
+        flex: 1 1 50%; /* Flexbox for banner */
+      }
+
+      .project-banner {
+        height: 100%;
+        border-radius: var(--radius) 0 0 var(--radius);
+      }
+      .project-card:nth-child(even) .project-banner {
+        border-radius: 0 var(--radius) var(--radius) 0;
+      }
+
+      .project-content {
+        flex: 1 1 50%;
+        padding: 2rem;
+      }
+      
+      .project-logo {
+        width: 90px;
+        height: 90px;
+        top: 2rem;
+        right: -45px; /* Overlap card edge */
+      }
+      .project-card:nth-child(even) .project-logo {
+        right: auto;
+        left: -45px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <div class="spotlight"></div>
-  <div class="aurora-background">
-    <div class="aurora aurora-1"></div>
-    <div class="aurora aurora-2"></div>
-  </div>
-
   <div class="page">
     <nav>
-      <div class="container nav-inner">
+      <div class="container nav-container">
         <div class="brand">Azhaan</div>
         <div class="nav-links">
           <a href="#projects">Projects</a>
           <a href="#contact">Contact</a>
         </div>
+        <button class="menu-toggle" aria-label="Open menu">
+          <div class="hamburger"></div>
+        </button>
       </div>
     </nav>
+    <div class="mobile-nav">
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </div>
 
-    <div class="container">
-      <header>
+    <header>
+      <canvas id="particle-canvas"></canvas>
+      <div class="container">
         <img src="YOUR_AVATAR_LINK_HERE" alt="Azhaan Avatar" class="avatar" />
         <h1>Azhaan</h1>
         <p class="subtitle">
-          A dedicated developer specializing in <strong>Minecraft Servers</strong> and custom <strong>Discord Bots</strong>.
+          Building immersive digital experiences with a focus on <strong>Minecraft Servers</strong> and custom <strong>Discord Bots</strong>.
         </p>
-      </header>
+      </div>
+    </header>
 
-      <main>
-        <section id="projects">
-          <h2>My Work</h2>
-          <div class="projects-grid">
-            <div class="project-card">
-              <h3>Zyrox X</h3>
-              <p>A feature-rich, multipurpose Discord bot built for advanced server management. Includes robust antinuke capabilities, automoderation, welcomer messages, and much more.</p>
+    <main class="container">
+      <section id="projects" class="reveal">
+        <h2>My Creations</h2>
+        <div class="projects-container">
+          
+          <article class="project-card">
+            <div class="project-banner-container">
+              <img src="YOUR_ZYROX_BANNER_LINK_HERE" alt="Zyrox X Banner" class="project-banner"/>
             </div>
-            <div class="project-card">
-              <h3>Blast MC</h3>
-              <p>A premier Minecraft server focused on optimized performance and a custom-tailored community experience.</p>
+            <div class="project-content">
+              <img src="YOUR_ZYROX_LOGO_LINK_HERE" alt="Zyrox X Logo" class="project-logo"/>
+              <div class="project-header">
+                <h3>Zyrox X</h3>
+                <span class="project-tag tag-coming-soon">Coming Soon</span>
+              </div>
+              <p class="project-description">An all-in-one solution for Discord server management, Zyrox X is engineered for security, engagement, and seamless administration.</p>
+              <ul class="project-features">
+                <li>Advanced Anti-Nuke & Anti-Raid Systems</li>
+                <li>Automated Moderation and Logging</li>
+                <li>Customizable Welcome & Goodbye Messages</li>
+                <li>Engaging Utility and Fun Commands</li>
+              </ul>
+              <a href="YOUR_DISCORD_INVITE_LINK_HERE" class="invite-button" target="_blank" rel="noopener noreferrer">Invite Bot</a>
             </div>
-            <div class="project-card">
-                <h3>Core Skills & Experience</h3>
-                <p>With 5 years of experience, I've developed 78+ custom Minecraft servers from scratch and created numerous interactive bots using Python, Node.js, and JavaScript.</p>
+          </article>
+          
+          <article class="project-card">
+            <div class="project-banner-container">
+              <img src="YOUR_BLASTMC_BANNER_LINK_HERE" alt="Blast MC Banner" class="project-banner"/>
             </div>
-          </div>
-        </section>
+            <div class="project-content">
+              <img src="YOUR_BLASTMC_LOGO_LINK_HERE" alt="Blast MC Logo" class="project-logo"/>
+              <div class="project-header">
+                <h3>Blast MC</h3>
+                <span class="project-tag tag-closed">Closed</span>
+              </div>
+              <p class="project-description">A premier Minecraft server experience built from the ground up, focusing on performance, stability, and unique community-driven gameplay features.</p>
+              <ul class="project-features">
+                <li>78+ Custom Servers Deployed</li>
+                <li>Optimized for Lag-Free Gameplay</li>
+                <li>Plugin-Free, Vanilla-True Architecture</li>
+                <li>Tailored Environments for Communities</li>
+              </ul>
+            </div>
+          </article>
+          
+          <article class="project-card">
+            <div class="project-banner-container">
+              <img src="YOUR_COMINGSOON_BANNER_LINK_HERE" alt="Coming Soon Banner" class="project-banner"/>
+            </div>
+            <div class="project-content">
+              <img src="YOUR_COMINGSOON_LOGO_LINK_HERE" alt="Question Mark Logo" class="project-logo"/>
+              <div class="project-header">
+                <h3>Future Projects</h3>
+              </div>
+              <p class="project-description">Innovation never stops. I am actively developing the next generation of tools and experiences to push the boundaries of what's possible.</p>
+              <ul class="project-features">
+                <li>Exploring Web3 & DApp Integration</li>
+                <li>Advanced AI-Powered Automation</li>
+                <li>Next-Gen Game Server Management</li>
+                <li>Stay Tuned for More Information</li>
+              </ul>
+            </div>
+          </article>
 
-        <section id="contact">
-          <h2>Get In Touch</h2>
-          <div class="contact-info">
-            <p>The best way to reach me is on Discord.</p>
-            <a href="https://discord.com/users/azhaan.dev.exe" class="discord-link" target="_blank" rel="noopener noreferrer">azhaan.dev.exe</a>
-          </div>
-        </section>
-      </main>
-    </div>
+        </div>
+      </section>
+
+      <section id="contact" class="reveal">
+        <h2>Let's Connect</h2>
+        <div class="contact-info">
+          <p>Have an idea or want to work together? The best way to reach me is on Discord.</p>
+          <a href="https://discord.com/users/azhaan.dev.exe" class="discord-link" target="_blank" rel="noopener noreferrer">azhaan.dev.exe</a>
+        </div>
+      </section>
+    </main>
 
     <footer>
-      &copy; 2025 Azhaan. All rights reserved.
+      <div class="container">
+        &copy; 2025 Azhaan. Crafted with passion.
+      </div>
     </footer>
   </div>
 
   <script>
-    // --- Cursor Spotlight Script ---
-    const spotlight = document.querySelector('.spotlight');
-    document.addEventListener('mousemove', e => {
-      spotlight.style.setProperty('--x', e.clientX + 'px');
-      spotlight.style.setProperty('--y', e.clientY + 'px');
+    // --- Mobile Menu Toggle ---
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+    menuToggle.addEventListener('click', () => {
+      document.body.classList.toggle('menu-open');
+    });
+    document.querySelectorAll('.mobile-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.body.classList.remove('menu-open');
+      });
     });
 
+    // --- Particle Background ---
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let particlesArray;
+
+    const mouse = { x: null, y: null, radius: (canvas.height/120) * (canvas.width/120) };
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    class Particle {
+      constructor(x, y, dirX, dirY, size, color) {
+        this.x = x; this.y = y; this.dirX = dirX; this.dirY = dirY;
+        this.size = size; this.color = color;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+        ctx.fillStyle = 'rgba(128, 159, 255, 0.4)';
+        ctx.fill();
+      }
+      update() {
+        if (this.x > canvas.width || this.x < 0) this.dirX = -this.dirX;
+        if (this.y > canvas.height || this.y < 0) this.dirY = -this.dirY;
+
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx*dx + dy*dy);
+        if(distance < mouse.radius + this.size){
+          if(mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 3;
+          if(mouse.x > this.x && this.x > this.size * 10) this.x -= 3;
+          if(mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 3;
+          if(mouse.y > this.y && this.y > this.size * 10) this.y -= 3;
+        }
+        this.x += this.dirX;
+        this.y += this.dirY;
+        this.draw();
+      }
+    }
+
+    function initParticles() {
+      particlesArray = [];
+      let numParticles = (canvas.height * canvas.width) / 9000;
+      for (let i=0; i < numParticles; i++) {
+        let size = (Math.random() * 2) + 1;
+        let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+        let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+        let dirX = (Math.random() * 0.4) - 0.2;
+        let dirY = (Math.random() * 0.4) - 0.2;
+        particlesArray.push(new Particle(x, y, dirX, dirY, size, '#809fff'));
+      }
+    }
+
+    function animateParticles() {
+      requestAnimationFrame(animateParticles);
+      ctx.clearRect(0,0,innerWidth, innerHeight);
+      for(let i=0; i<particlesArray.length; i++){
+        particlesArray[i].update();
+      }
+    }
+    
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = document.querySelector('header').offsetHeight; // Resize to header height
+      mouse.radius = (canvas.height/120) * (canvas.width/120);
+      initParticles();
+    });
+    
+    // Set initial canvas height
+    canvas.height = document.querySelector('header').offsetHeight;
+    initParticles();
+    animateParticles();
+
+
     // --- Scroll Reveal Script ---
-    const sections = document.querySelectorAll('section');
+    const sections = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -366,7 +614,3 @@
   </script>
 </body>
 </html>
-```
-
-Citations:
-[1] aegis.strelix.xyz https://aegis.strelix.xyz
