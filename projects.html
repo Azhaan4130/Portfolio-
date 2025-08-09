@@ -21,7 +21,40 @@
       font-family: 'Inter', system-ui, sans-serif;
       line-height: 1.7; overflow-x: hidden;
     }
+    /* --- Ultimate Loading Animation --- */
+    .loader {
+        position: fixed; inset: 0; background-color: var(--bg);
+        display: flex; align-items: center; justify-content: center;
+        z-index: 9999;
+        transition: opacity 1s ease, visibility 1s ease;
+        transition-delay: 0.5s;
+    }
+    .loader-content {
+        text-align: center;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        width: 300px;
+    }
+    .loader-brand { font-size: 2.5rem; font-weight: 700; color: var(--ink); margin-bottom: 2rem; opacity: 0; animation: brand-fade-in 1s ease forwards; }
+    @keyframes brand-fade-in { to { opacity: 1; } }
+    .progress-bar-container {
+        width: 250px; height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px; margin-top: 1rem;
+    }
+    .progress-bar { width: 0%; height: 100%; background: var(--secondary); border-radius: 3px; transition: width 0.1s linear; }
+    .loader-percentage { color: var(--muted); font-weight: 500; margin-top: 1rem; }
+    
+    body.loaded .loader { opacity: 0; visibility: hidden; }
+    .page { opacity: 0; transition: opacity 1s ease; }
+    body.loaded .page { opacity: 1; }
+
     .container { width: 90%; max-width: 1100px; margin: 0 auto; }
+    
+    .background-animation { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+    .circle { position: absolute; border-radius: 50%; mix-blend-mode: screen; filter: blur(120px); opacity: 0.6; }
+    .circle-1 { width: 400px; height: 400px; background: var(--primary); animation: move 20s infinite alternate; top: -10%; left: -5%; }
+    .circle-2 { width: 500px; height: 500px; background: var(--secondary); animation: move 25s infinite alternate-reverse; bottom: -15%; right: -10%; }
+    @keyframes move { from { transform: translate(-50%, -50%) rotate(0deg) scale(0.8); } to { transform: translate(50%, 50%) rotate(360deg) scale(1.2); } }
     
     nav {
       position: sticky; top: 0; z-index: 1000; padding: 16px 0;
@@ -43,7 +76,7 @@
     .projects-container {
       display: grid; gap: 2.5rem;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      perspective: 1000px; /* For 3D tilt effect */
+      perspective: 1000px;
     }
     .project-card {
       background: var(--surface); border-radius: var(--radius); overflow: hidden;
@@ -53,13 +86,11 @@
       display: flex; flex-direction: column; position: relative;
       transform-style: preserve-3d;
       opacity: 0; transform: translateY(40px);
-      animation: card-reveal 0.8s ease forwards;
     }
-    @keyframes card-reveal {
-      to { opacity: 1; transform: translateY(0); }
+    .project-card.visible {
+        opacity: 1; transform: translateY(0);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     }
-    .projects-container .project-card:nth-child(2) { animation-delay: 0.1s; }
-    .projects-container .project-card:nth-child(3) { animation-delay: 0.2s; }
     
     .project-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -71,23 +102,9 @@
     }
     .project-card:hover::before { opacity: 1; }
 
-    .project-logo-wrapper {
-        background: #05080d;
-        height: 200px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .project-logo {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        animation: pulse 3s ease-in-out infinite;
-    }
-    @keyframes pulse {
-        50% { transform: scale(1.05); }
-    }
+    .project-logo-wrapper { background: #05080d; height: 200px; display: flex; align-items: center; justify-content: center; }
+    .project-logo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; animation: pulse 3s ease-in-out infinite; }
+    @keyframes pulse { 50% { transform: scale(1.05); } }
 
     .project-content { padding: 1.5rem; position: relative; flex-grow: 1; display: flex; flex-direction: column; z-index: 1;}
     .project-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
@@ -114,7 +131,20 @@
   </style>
 </head>
 <body>
+    <div class="loader">
+    <div class="loader-content">
+      <div class="loader-brand">Azhaan</div>
+      <div class="progress-bar-container">
+          <div class="progress-bar"></div>
+      </div>
+      <div class="loader-percentage">0%</div>
+    </div>
+  </div>
   <div class="page">
+    <div class="background-animation">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+    </div>
     <nav>
       <div class="container nav-container">
         <a href="index.html" class="brand">Azhaan</a>
@@ -201,6 +231,26 @@
     </footer>
   </div>
   <script>
+    // --- Loading Animation ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const progressBar = document.querySelector('.progress-bar');
+        const percentageText = document.querySelector('.loader-percentage');
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 1;
+            if (progressBar) progressBar.style.width = progress + '%';
+            if (percentageText) percentageText.textContent = progress + '%';
+            
+            if (progress >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    document.body.classList.add('loaded');
+                }, 500); // Wait after 100%
+            }
+        }, 30); // Speed of loading
+    });
+
     // --- 3D Card Tilt Effect ---
     const cards = document.querySelectorAll('.project-card');
     cards.forEach(card => {
@@ -219,6 +269,26 @@
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
         });
+    });
+
+    // --- Staggered Reveal on Scroll ---
+    const revealCards = document.querySelectorAll('.project-card');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, i * 150);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.querySelector('.page').style.opacity = '1';
+            revealCards.forEach(card => observer.observe(card));
+        }, 3500); // Match loader duration
     });
   </script>
 </body>
