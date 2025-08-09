@@ -73,6 +73,7 @@
     }
     .progress-bar { width: 0%; height: 100%; background: var(--secondary); border-radius: 3px; transition: width 0.1s linear; }
     .loader-percentage { color: var(--muted); font-weight: 500; margin-top: 1rem; }
+    .loader-text { color: var(--muted); margin-top: 0.5rem; font-family: 'Courier New', monospace;}
     
     body.loaded .loader { opacity: 0; visibility: hidden; }
     .page { opacity: 0; transition: opacity 1s ease; }
@@ -189,6 +190,7 @@
           <div class="progress-bar"></div>
       </div>
       <div class="loader-percentage">0%</div>
+      <div class="loader-text"></div>
     </div>
   </div>
   <div class="background-animation">
@@ -301,20 +303,36 @@
     document.addEventListener('DOMContentLoaded', () => {
         const progressBar = document.querySelector('.progress-bar');
         const percentageText = document.querySelector('.loader-percentage');
+        const loaderText = document.querySelector('.loader-text');
         
+        const loadingStates = ["Initializing modules...", "Compiling assets...", "Deploying experience..."];
         let progress = 0;
-        const interval = setInterval(() => {
+        let textIndex = 0;
+
+        const updateLoader = () => {
             progress += 1;
             if (progressBar) progressBar.style.width = progress + '%';
             if (percentageText) percentageText.textContent = progress + '%';
+            
+            if (progress >= 33 && textIndex === 0) {
+                textIndex++;
+                if (loaderText) loaderText.textContent = loadingStates[textIndex];
+            }
+            if (progress >= 66 && textIndex === 1) {
+                textIndex++;
+                if (loaderText) loaderText.textContent = loadingStates[textIndex];
+            }
             
             if (progress >= 100) {
                 clearInterval(interval);
                 setTimeout(() => {
                     document.body.classList.add('loaded');
-                }, 500); // Wait after 100%
+                }, 500);
             }
-        }, 35); // Speed of loading
+        };
+
+        if (loaderText) loaderText.textContent = loadingStates[0];
+        const interval = setInterval(updateLoader, 35);
     });
 
     // --- Staggered Reveal Animation ---
@@ -328,6 +346,7 @@
       });
     }, { threshold: 0.1 });
     
+    // Wait for the loader to finish before starting to reveal content
     window.addEventListener('load', () => {
         setTimeout(() => {
             document.querySelector('.page').style.opacity = '1';
@@ -336,4 +355,5 @@
     });
   </script>
 </body>
-</html>
+                                                                                                                                                                                                                                                                                                               </html>
+                
